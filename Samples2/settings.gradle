@@ -1,0 +1,1 @@
+include ':WigetsSuite', ':intent', ':menus', ':menu', ':localisation', ':maps', ':galleriephotos', ':settings', ':database', ':splash'

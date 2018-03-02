@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "100054411024",
+    "firebase_url": "https://projetsandroid-fee39.firebaseio.com",
+    "project_id": "projetsandroid-fee39",
+    "storage_bucket": "projetsandroid-fee39.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:100054411024:android:b1c10f2fd7514b24",
+        "android_client_info": {
+          "package_name": "com.example.thierrycouilleault.chatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "100054411024-f4qkqk61mcc6tl2seae1rgqg98eede23.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.thierrycouilleault.chatapp",
+            "certificate_hash": "517ebedb0eff43f71a57461f79f944704ceac96e"
+          }
+        },
+        {
+          "client_id": "100054411024-ke7iu1694lt2dl3r22vho6phbr7jmeq2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZzyVoxxWNmWxpShFJQsYfPGcKj5ntyg4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "100054411024-ke7iu1694lt2dl3r22vho6phbr7jmeq2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

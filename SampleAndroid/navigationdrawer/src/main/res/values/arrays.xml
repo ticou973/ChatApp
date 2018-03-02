@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_crit_fin_partie_entries">
+        <item> Nombre de points</item>
+        <item> Nombre de donnes</item>
+    </string-array>
+
+    <string-array name="pref_crit_fin_partie_values">
+        <item> TypeJeu.POINTS</item>
+        <item> TypeJeu.DONNES</item>
+    </string-array>
+
+    <string-array name="planets_array">
+        <item> Mercure </item>
+        <item> Vénus </item>
+        <item> Terre </item>
+        <item> Mars </item>
+        <item> Jupiter </item>
+        <item> Saturne </item>
+        <item> Uranus </item>
+        <item> Neptune </item>
+    </string-array>
+
+
+</resources>

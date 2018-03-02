@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/app_bar_search"
+        android:icon="@mipmap/ic_launcher"
+        android:title="Search"
+        app:actionViewClass="android.widget.SearchView"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/it_preferences"
+        android:title="Préférences"
+        app:showAsAction="never" >
+
+        <menu>
+            <item
+                android:id="@+id/it_noter_app"
+                android:title="Noter l'application"
+                android:titleCondensed="Notes"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/it_plus"
+                android:title="Plus"
+                android:checkable="true"
+                app:showAsAction="never" />
+
+        </menu>
+
+    </item>
+
+
+    <item
+        android:id="@+id/it_mode"
+        android:title="MODE JOUEUR"
+
+        app:showAsAction="ifRoom" />
+</menu>

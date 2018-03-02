@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Animations/Animations.iml" filepath="$PROJECT_DIR$/Animations/Animations.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SampleAndroid.iml" filepath="$PROJECT_DIR$/SampleAndroid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Animations/app.iml" filepath="$PROJECT_DIR$/Animations/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/boitedialogues/boitedialogues.iml" filepath="$PROJECT_DIR$/boitedialogues/boitedialogues.iml" />
+      <module fileurl="file://$PROJECT_DIR$/navigationdrawer/navigationdrawer.iml" filepath="$PROJECT_DIR$/navigationdrawer/navigationdrawer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/notifications/notifications.iml" filepath="$PROJECT_DIR$/notifications/notifications.iml" />
+      <module fileurl="file://$PROJECT_DIR$/recyclerview/recyclerview.iml" filepath="$PROJECT_DIR$/recyclerview/recyclerview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/webview/webview.iml" filepath="$PROJECT_DIR$/webview/webview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/widgets/widgets.iml" filepath="$PROJECT_DIR$/widgets/widgets.iml" />
+    </modules>
+  </component>
+</project>

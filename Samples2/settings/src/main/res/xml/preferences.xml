@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="Déroulement de la partie"
+        android:key="prop_partie">
+
+        <ListPreference
+            android:title="Critère de fin de partie"
+            android:summary="Nombre de parties ou nombre de points"
+            android:key="crit_fin_partie"
+            android:dialogTitle="Critère de fin de partie"
+            android:entries="@array/pref_crit_fin_partie_entries"
+            android:entryValues="@array/pref_crit_fin_partie_values"
+            android:defaultValue="Nombre de points"
+            />
+
+        <EditTextPreference
+            android:title="Nombre de points à atteindre pour gagner"
+            android:summary="nombre de points pour gagner"
+            android:key='nb_points_gagnés'
+            android:dialogTitle="Nombre de points pour gagner"
+            android:defaultValue="1001"
+            />
+
+        <EditTextPreference
+            android:title="Nombre de donnes pour une partie"
+            android:summary="nombre de donnes pour gagner"
+            android:key='nb_donnes_gagner'
+            android:dialogTitle="Nombre de donnes pour une partie"
+            android:defaultValue="12"
+            />
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Aide à la partie"
+        android:key="aide_partie">
+
+        <CheckBoxPreference
+            android:title="Distributeur"
+            android:key="distrib"
+            android:defaultValue="true"
+            />
+    </PreferenceCategory>
+
+</PreferenceScreen>

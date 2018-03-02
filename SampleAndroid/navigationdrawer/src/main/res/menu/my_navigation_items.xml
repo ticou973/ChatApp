@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/it_preferences"
+        android:title="Préférences" />
+
+
+    <item
+        android:id="@+id/it_noter_app"
+        android:title="Noter l'application"
+        android:titleCondensed="Notes" />
+
+    <item
+        android:id="@+id/it_plus"
+        android:title="Plus"
+        android:checkable="true" />
+
+
+    <item
+        android:id="@+id/it_mode"
+        android:title="MODE JOUEUR" />
+
+</menu>

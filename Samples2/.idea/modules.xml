@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Samples2.iml" filepath="$PROJECT_DIR$/Samples2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WigetsSuite/WigetsSuite.iml" filepath="$PROJECT_DIR$/WigetsSuite/WigetsSuite.iml" />
+      <module fileurl="file://$PROJECT_DIR$/database/database.iml" filepath="$PROJECT_DIR$/database/database.iml" />
+      <module fileurl="file://$PROJECT_DIR$/galleriephotos/galleriephotos.iml" filepath="$PROJECT_DIR$/galleriephotos/galleriephotos.iml" />
+      <module fileurl="file://$PROJECT_DIR$/intent/intent.iml" filepath="$PROJECT_DIR$/intent/intent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/localisation/localisation.iml" filepath="$PROJECT_DIR$/localisation/localisation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/maps/maps.iml" filepath="$PROJECT_DIR$/maps/maps.iml" />
+      <module fileurl="file://$PROJECT_DIR$/menu/menu.iml" filepath="$PROJECT_DIR$/menu/menu.iml" />
+      <module fileurl="file://$PROJECT_DIR$/menus/menus.iml" filepath="$PROJECT_DIR$/menus/menus.iml" />
+      <module fileurl="file://$PROJECT_DIR$/settings/settings.iml" filepath="$PROJECT_DIR$/settings/settings.iml" />
+      <module fileurl="file://$PROJECT_DIR$/splash/splash.iml" filepath="$PROJECT_DIR$/splash/splash.iml" />
+    </modules>
+  </component>
+</project>
