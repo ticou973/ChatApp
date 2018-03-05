@@ -22,6 +22,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 public class ProfileActivity extends AppCompatActivity {
 
     private TextView profileDisplayName;
@@ -32,6 +35,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private DatabaseReference mUsersDatabase;
     private DatabaseReference mFriendsReqDatabase;
+    private DatabaseReference mFriendsDatabase;
     private FirebaseUser mCurrent_user;
 
     private ProgressDialog mProgressDialog;
@@ -50,6 +54,7 @@ public class ProfileActivity extends AppCompatActivity {
         //Déclaration de la database et positionnement dans la DB.
         mUsersDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(user_id);
         mFriendsReqDatabase = FirebaseDatabase.getInstance().getReference().child("Friends_req");
+        mFriendsDatabase = FirebaseDatabase.getInstance().getReference().child("Friends");
 
         mCurrent_state = "Not friends";
         mCurrent_user = FirebaseAuth.getInstance().getCurrentUser();
@@ -92,7 +97,7 @@ public class ProfileActivity extends AppCompatActivity {
                                                     @Override
                                                     public void onSuccess(Void aVoid) {
 
-                                                        profileSendRequestBtn.setEnabled(true);
+
                                                         mCurrent_state ="request sent";
                                                         profileSendRequestBtn.setText("Cancel Friend Request");
 
@@ -109,6 +114,8 @@ public class ProfileActivity extends AppCompatActivity {
 
                                         Toast.makeText(ProfileActivity.this, "Failed to send requests", Toast.LENGTH_SHORT).show();
                                     }
+
+                                    profileSendRequestBtn.setEnabled(true);
 
                                 }
                             });
@@ -136,7 +143,49 @@ public class ProfileActivity extends AppCompatActivity {
                     });
                 }
 
+                // ------------REQ RECEIVED STATE ------------
 
+                if (mCurrent_state.equals("req_received")){
+
+                    final String currentDate = DateFormat.getDateTimeInstance().format(new Date());
+
+                    mFriendsDatabase.child(mCurrent_user.getUid()).child(user_id).setValue(currentDate).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            mFriendsDatabase.child(user_id).child(mCurrent_user.getUid()).setValue(currentDate).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+
+                                    mFriendsReqDatabase.child(mCurrent_user.getUid()).child(user_id).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            mFriendsReqDatabase.child(user_id).child(mCurrent_user.getUid()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+
+                                                    profileSendRequestBtn.setEnabled(true);
+                                                    mCurrent_state ="friends";
+                                                    profileSendRequestBtn.setText(" Unfriend this person");
+
+                                                }
+                                            });
+                                        }
+                                    });
+
+
+                                }
+                            });
+
+
+
+                        }
+                    });
+
+
+
+
+
+                }
             }
         });
 
@@ -205,10 +254,6 @@ public class ProfileActivity extends AppCompatActivity {
 
                     }
                 });
-
-
-
-
 
 
 
