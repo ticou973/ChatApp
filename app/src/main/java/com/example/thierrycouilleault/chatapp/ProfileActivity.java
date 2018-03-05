@@ -103,8 +103,6 @@ public class ProfileActivity extends AppCompatActivity {
 
                                                         Toast.makeText(ProfileActivity.this, "Requests sent successfull", Toast.LENGTH_SHORT).show();
 
-
-
                                                     }
                                                 });
 
@@ -122,7 +120,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                 }
 
-                // -------------- CANCEL REQUEST STATE---------
+                // -------------- CANCEL REQUEST STATE  ---------
 
                 if (mCurrent_state.equals("request sent")){
 
@@ -182,9 +180,27 @@ public class ProfileActivity extends AppCompatActivity {
                     });
 
 
+                }
 
+                //-----------FRIEND STATE------------
 
+                if (mCurrent_state.equals("friends")){
 
+                    mFriendsDatabase.child(mCurrent_user.getUid()).child(user_id).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            mFriendsDatabase.child(user_id).child(mCurrent_user.getUid()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+
+                                    profileSendRequestBtn.setEnabled(true);
+                                    mCurrent_state ="Not friends";
+                                    profileSendRequestBtn.setText("Send Friend Request");
+
+                                }
+                            });
+                        }
+                    });
                 }
             }
         });
@@ -210,7 +226,7 @@ public class ProfileActivity extends AppCompatActivity {
         mProgressDialog.show();
 
 
-        //gestion de l'évolution des données dans la DB.
+        //gestion de l'évolution des données dans la DB user
         mUsersDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -241,11 +257,31 @@ public class ProfileActivity extends AppCompatActivity {
                                 mCurrent_state = "req_sent";
                                 profileSendRequestBtn.setText("Cancel Friend Request");
                             }
+
+                            mProgressDialog.dismiss();
+
+                        } else {
+
+                            mFriendsDatabase.child(mCurrent_user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    if (dataSnapshot.hasChild(user_id)){
+                                        mCurrent_state ="friends";
+                                        profileSendRequestBtn.setText(" Unfriend this person");
+                                    }
+
+                                    mProgressDialog.dismiss();
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                    mProgressDialog.dismiss();
+                                }
+                            });
+
+
                         }
-
-
-
-                        mProgressDialog.dismiss();
 
                     }
 
