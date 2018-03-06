@@ -14,9 +14,19 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
+
+
+/*
+device token Id pour identifier les devices. ici ce n'est que du simple device a voir pour plusieurs
+ */
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -28,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressDialog mLoginProgress;
 
     private FirebaseAuth mAuth;
+    private DatabaseReference mUserDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +50,10 @@ public class LoginActivity extends AppCompatActivity {
 
         mLoginEmail=findViewById(R.id.login_email);
         mLoginPassword =findViewById(R.id.login_password);
+
+        //database
+
+        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
 
         //gestion Toolbar
         mToolbar = findViewById(R.id.login_toolbar);
@@ -85,20 +100,34 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
 
-                            mLoginProgress.dismiss();
+                            String deviceToken = FirebaseInstanceId.getInstance().getToken();
+                            String current_user_id = mAuth.getCurrentUser().getUid();
 
-                            Intent mainIntent = new Intent (LoginActivity.this, MainActivity.class);
+                            mUserDatabase.child(current_user_id).child("device_token").setValue(deviceToken).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
 
-                            //ce code pour lorsque l'on appuie sur le bouton retour de Android, cela nous envoie sur l'accueil Android et non pas Start Activity
-                            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    mLoginProgress.dismiss();
 
-                            startActivity(mainIntent);
+                                    Intent mainIntent = new Intent (LoginActivity.this, MainActivity.class);
+
+                                    //ce code pour lorsque l'on appuie sur le bouton retour de Android, cela nous envoie sur l'accueil Android et non pas Start Activity
+                                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                                    startActivity(mainIntent);
 
 
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithEmail:success");
+                                    // Sign in success, update UI with the signed-in user's information
+                                    Log.d(TAG, "signInWithEmail:success");
 
-                            finish();
+                                    finish();
+
+                                }
+                            });
+
+
+
+
 
                         } else {
 
