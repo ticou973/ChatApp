@@ -46,32 +46,6 @@ public class MainActivity extends AppCompatActivity {
 //création du manager de notification
         final NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-/*
-// The user-visible name of the channel.
-        CharSequence name = getString(R.string.channel_name);
-
-// The user-visible description of the channel.
-        String description = getString(R.string.channel_description);
-
-        int importance = NotificationManager.IMPORTANCE_HIGH;
-
-
-        //CREATION CHANNEL
-
-        NotificationChannel mChannel = new NotificationChannel(ID_CHANNEL, name, importance);
-
-// Configure the notification channel.
-        mChannel.setDescription(description);
-        mChannel.enableLights(true);
-
-// Sets the notification light color for notifications posted to this channel, if the device supports this feature.
-        mChannel.setLightColor(Color.RED);
-        mChannel.enableVibration(true);
-        mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
-
-        mNotificationManager.createNotificationChannel(mChannel);
-*/
-
 
 
         //lancement de la notification dans le channel
