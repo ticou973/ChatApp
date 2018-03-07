@@ -42,6 +42,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private ProgressDialog mProgressDialog;
     private String mCurrent_state;
+    private String mCurrentUserUid;
 
 
 
@@ -62,6 +63,7 @@ public class ProfileActivity extends AppCompatActivity {
         mCurrent_state = "Not friends";
 
         mCurrent_user = FirebaseAuth.getInstance().getCurrentUser();
+        mCurrentUserUid = mCurrent_user.getUid();
 
 
         //findview
@@ -79,6 +81,16 @@ public class ProfileActivity extends AppCompatActivity {
 
         //gestion du bon d'envoi de la requête
         profileSendRequestBtn = findViewById(R.id.profile_send_req_btn);
+
+        if (mCurrentUserUid.equals(user_id)) {
+            profileSendRequestBtn.setEnabled(false);
+            profileSendRequestBtn.setVisibility(View.INVISIBLE);
+
+            Toast.makeText(this, user_id + "  " + mCurrentUserUid, Toast.LENGTH_LONG).show();
+
+        }
+
+
         profileSendRequestBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -236,7 +248,7 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
 
-        //gestion du bourton d'envoi du refus de requ^e
+        //gestion du bourton d'envoi du refus de requête
         profileDeclineRequest = findViewById(R.id.profile_decline_request);
         profileDeclineRequest.setVisibility(View.INVISIBLE);
         profileDeclineRequest.setEnabled(false);
@@ -310,7 +322,7 @@ public class ProfileActivity extends AppCompatActivity {
                                         profileDeclineRequest.setEnabled(false);
                                     }
 
-                                    mProgressDialog.dismiss();
+
                                 }
 
                                 @Override
@@ -320,7 +332,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 }
                             });
 
-
+                            mProgressDialog.dismiss();
                         }
 
                     }
