@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -41,5 +42,15 @@
         android:layout_below="@+id/friend_single_name"
         android:text="Default Status"
         android:textSize="12sp" />
+
+    <ImageView
+        android:id="@+id/friend_single_online_icon"
+        android:layout_width="23dp"
+        android:layout_height="23dp"
+        android:layout_alignBottom="@+id/friend_single_name"
+        android:layout_marginStart="19dp"
+        android:layout_toEndOf="@+id/friend_single_name"
+        android:visibility="invisible"
+        app:srcCompat="@drawable/green_dot1" />
 
 </RelativeLayout>

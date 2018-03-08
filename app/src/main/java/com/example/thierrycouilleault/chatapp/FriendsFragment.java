@@ -10,8 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -93,6 +93,12 @@ public class FriendsFragment extends android.support.v4.app.Fragment {
                         String userThumb = dataSnapshot.child("thumb_image").getValue().toString();
                         String userStatus = dataSnapshot.child("status").getValue().toString();
 
+                        if (dataSnapshot.hasChild("online")){
+
+                            Boolean userOnLineStatus = (boolean) dataSnapshot.child("online").getValue();
+                            viewHolder.setDisplayOnLine(userOnLineStatus);
+                        }
+
                         viewHolder.setDisplayName(userName);
                         viewHolder.setDisplayImage(userThumb,getContext());
                         viewHolder.setDisplayStatus(userStatus);
@@ -133,6 +139,7 @@ public class FriendsFragment extends android.support.v4.app.Fragment {
         View mView;
         TextView tv_name, tv_date, tv_status;
         CircleImageView circleImageView;
+        ImageView onlineIcon;
 
         public FriendsViewHolder(View itemView) {
             super(itemView);
@@ -164,6 +171,21 @@ public class FriendsFragment extends android.support.v4.app.Fragment {
         public void setDisplayStatus (String status){
            tv_status = mView.findViewById(R.id.friend_single_status);
            tv_status.setText(status);
+
+        }
+
+        public void setDisplayOnLine(Boolean userOnLineStatus){
+
+            onlineIcon = mView.findViewById(R.id.friend_single_online_icon);
+
+            if (userOnLineStatus == true){
+
+                onlineIcon.setVisibility(View.VISIBLE);
+            } else {
+
+                onlineIcon.setVisibility(View.INVISIBLE);
+            }
+
 
         }
 
