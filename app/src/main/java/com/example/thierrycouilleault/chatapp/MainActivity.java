@@ -31,15 +31,24 @@ public class MainActivity extends AppCompatActivity {
     private String mCurrentUserId;
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mAuth = FirebaseAuth.getInstance();
-        mCurrentUserId = mAuth.getCurrentUser().getUid();
 
-        mUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUserId);
+        mAuth = FirebaseAuth.getInstance();
+
+
+        //pour ne pas que cela crash avec un nul object
+        if (mAuth.getCurrentUser() != null) {
+            mCurrentUserId = mAuth.getCurrentUser().getUid();
+
+            mUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUserId);
+
+        }
 
         //gestion de la toolbar
         mToolbar = findViewById(R.id.main_page_toolbar);

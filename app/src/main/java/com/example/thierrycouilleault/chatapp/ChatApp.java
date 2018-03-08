@@ -48,32 +48,35 @@ public class ChatApp extends Application {
 
         mAuth = FirebaseAuth.getInstance();
 
-        //mCurrentUserId = mAuth.getCurrentUser().getUid();
+        if (mAuth.getCurrentUser() != null) {
+
+            mCurrentUserId = mAuth.getCurrentUser().getUid();
 
 
-        mUsersDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
+            mUsersDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
 
-        mUsersDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            mUsersDatabase.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
 
-                if (dataSnapshot != null){
+                    if (dataSnapshot != null){
 
-                    //Pour mettre un tampon pour la dernière fois vue
-                    mUsersDatabase.child("online").onDisconnect().setValue(ServerValue.TIMESTAMP);
+                        //Pour mettre un tampon pour la dernière fois vue
+                        mUsersDatabase.child("online").onDisconnect().setValue(ServerValue.TIMESTAMP);
 
 
+
+                    }
 
                 }
 
-            }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                }
+            });
 
-            }
-        });
-
+        }
 
     }
 }
