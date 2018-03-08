@@ -91,7 +91,7 @@ public class FriendsFragment extends android.support.v4.app.Fragment {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
 
-                        String userName = dataSnapshot.child("name").getValue().toString();
+                        final String userName = dataSnapshot.child("name").getValue().toString();
                         String userThumb = dataSnapshot.child("thumb_image").getValue().toString();
                         String userStatus = dataSnapshot.child("status").getValue().toString();
 
@@ -130,6 +130,7 @@ public class FriendsFragment extends android.support.v4.app.Fragment {
 
                                             Intent chatIntent = new Intent (getContext(), ChatActivity.class);
                                             chatIntent.putExtra("user_id", list_user_id);
+                                            chatIntent.putExtra("user_name", userName);
                                             startActivity(chatIntent);
 
 
