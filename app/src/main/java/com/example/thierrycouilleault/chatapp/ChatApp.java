@@ -3,8 +3,11 @@ package com.example.thierrycouilleault.chatapp;
 import android.app.Application;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 
@@ -49,16 +52,16 @@ public class ChatApp extends Application {
 
         mUsersDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
 
-        /*mUsersDatabase.addValueEventListener(new ValueEventListener() {
+        mUsersDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 if (dataSnapshot != null){
 
                     mUsersDatabase.child("online").onDisconnect().setValue(false);
+                    mUsersDatabase.child("online").setValue(true);
 
                 }
-
 
             }
 
@@ -66,7 +69,7 @@ public class ChatApp extends Application {
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });*/
+        });
 
 
     }
