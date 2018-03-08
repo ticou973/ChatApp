@@ -15,38 +15,42 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:background="@android:color/white"
         android:orientation="horizontal"
         android:weightSum="10">
 
-        <ImageView
-            android:id="@+id/imageView2"
+        <ImageButton
+            android:id="@+id/chat_add_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:alpha="0.5"
             android:background="@android:color/white"
+            android:padding="10dp"
             app:srcCompat="@drawable/ic_add_black_24dp" />
 
-        <TextView
-            android:id="@+id/textView3"
+        <EditText
+            android:id="@+id/chat_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="8"
-            android:background="@android:color/white"
+            android:hint="Send a message..."
+            android:inputType="textPersonName"
             android:paddingBottom="12dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:paddingTop="16dp"
-            android:text="TextView" />
+            android:paddingTop="16dp" />
 
-        <ImageView
-            android:id="@+id/imageView"
+        <ImageButton
+            android:id="@+id/chat_send_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:alpha="0.5"
             android:background="@android:color/white"
+            android:padding="10dp"
             app:srcCompat="@drawable/ic_send_black_24dp" />
+
     </LinearLayout>
 
 </RelativeLayout>
