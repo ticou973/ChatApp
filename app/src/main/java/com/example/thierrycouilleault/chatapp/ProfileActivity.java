@@ -371,13 +371,19 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
+
     @Override
     protected void onStop() {
         super.onStop();
+        if (mCurrent_user==null){
 
-        if(mCurrent_user != null) {
+            Toast.makeText(this, "This person doesn't exist !", Toast.LENGTH_SHORT).show();
+
+        } else {
 
             mUserRef.child("online").setValue(false);
+
         }
+
     }
 }

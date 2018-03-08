@@ -277,6 +277,41 @@ public class SettingsActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+
+        if (mCurrentUser==null){
+
+            Toast.makeText(this, "This person doesn't exist !", Toast.LENGTH_SHORT).show();
+
+        } else {
+
+            Toast.makeText(this, "hello", Toast.LENGTH_SHORT).show();
+
+            mUserDatabase.child("online").setValue(true);
+
+        }
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if (mCurrentUser==null){
+
+            Toast.makeText(this, "This person doesn't exist !", Toast.LENGTH_SHORT).show();
+
+        } else {
+
+            mUserDatabase.child("online").setValue(false);
+
+        }
+
+    }
+
     public static String random() {
         Random generator = new Random();
         StringBuilder randomStringBuilder = new StringBuilder();

@@ -1,8 +1,10 @@
 package com.example.thierrycouilleault.chatapp;
 
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -104,22 +106,52 @@ public class FriendsFragment extends android.support.v4.app.Fragment {
                         viewHolder.setDisplayStatus(userStatus);
 
 
+
+                        viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                                CharSequence options[] = new CharSequence[] {"Open Profile", "Send Message"};
+
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+                                builder.setTitle("Select Options");
+                                builder.setItems(options, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                        if (i==0){
+
+                                            Intent profileIntent = new Intent (getContext(), ProfileActivity.class);
+                                            profileIntent.putExtra("user_id", list_user_id);
+                                            startActivity(profileIntent);
+
+                                        } else if(i==1) {
+
+                                            Intent chatIntent = new Intent (getContext(), ChatActivity.class);
+                                            chatIntent.putExtra("user_id", list_user_id);
+                                            startActivity(chatIntent);
+
+
+                                        }
+
+                                    }
+                                });
+
+                                builder.show();
+
+                            }
+                        });
+
+
+
+
+
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
 
-                    }
-                });
-
-
-                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        Intent profileIntent = new Intent (getContext(), ProfileActivity.class);
-                        profileIntent.putExtra("user_id", list_user_id);
-                        startActivity(profileIntent);
                     }
                 });
 
