@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -88,7 +89,9 @@ public class MainActivity extends AppCompatActivity {
 
         if(currentUser != null) {
 
-            mUserRef.child("online").setValue(false);
+            //Pour mettre un tampon pour la dernière fois vue
+            mUserRef.child("online").setValue(ServerValue.TIMESTAMP);
+
         }
     }
 

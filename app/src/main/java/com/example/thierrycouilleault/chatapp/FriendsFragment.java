@@ -97,7 +97,7 @@ public class FriendsFragment extends android.support.v4.app.Fragment {
 
                         if (dataSnapshot.hasChild("online")){
 
-                            Boolean userOnLineStatus = (boolean) dataSnapshot.child("online").getValue();
+                            String userOnLineStatus = dataSnapshot.child("online").getValue().toString();
                             viewHolder.setDisplayOnLine(userOnLineStatus);
                         }
 
@@ -207,11 +207,11 @@ public class FriendsFragment extends android.support.v4.app.Fragment {
 
         }
 
-        public void setDisplayOnLine(Boolean userOnLineStatus){
+        public void setDisplayOnLine(String userOnLineStatus){
 
             onlineIcon = mView.findViewById(R.id.friend_single_online_icon);
 
-            if (userOnLineStatus == true){
+            if (userOnLineStatus.equals("true")){
 
                 onlineIcon.setVisibility(View.VISIBLE);
             } else {
