@@ -11,6 +11,7 @@ import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,6 +24,10 @@ public class MainActivity extends AppCompatActivity {
 
     private TabLayout mTabLayout;
 
+    private DatabaseReference mUserRef;
+
+    private String mCurrentUserId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +35,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mAuth = FirebaseAuth.getInstance();
+        //mCurrentUserId = mAuth.getCurrentUser().getUid();
+
+       // mUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUserId);
 
         //gestion de la toolbar
         mToolbar = findViewById(R.id.main_page_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("ChatApp");
+
+
 
         //gestion de tabs
         mViewPager = findViewById(R.id.tab_pager);
@@ -52,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+
+
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
@@ -59,9 +71,21 @@ public class MainActivity extends AppCompatActivity {
 
             sendToStart();
 
+        } else {
+
+            //mUserRef.child("online").setValue(true);
+
+
         }
 
 
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+       // mUserRef.child("online").setValue(false);
     }
 
     private void sendToStart() {
