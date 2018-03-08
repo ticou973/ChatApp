@@ -55,6 +55,9 @@ public class ProfileActivity extends AppCompatActivity {
         final String user_id=getIntent().getStringExtra("user_id");
 
         //Déclaration de la database et positionnement dans la DB.
+        mCurrent_user = FirebaseAuth.getInstance().getCurrentUser();
+        mCurrentUserUid = mCurrent_user.getUid();
+
         mUsersDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(user_id);
         mFriendsReqDatabase = FirebaseDatabase.getInstance().getReference().child("Friend_req");
         mFriendsDatabase = FirebaseDatabase.getInstance().getReference().child("Friends");
@@ -63,9 +66,6 @@ public class ProfileActivity extends AppCompatActivity {
         mRootRef = FirebaseDatabase.getInstance().getReference();
 
         mCurrent_state = "Not friends";
-
-        mCurrent_user = FirebaseAuth.getInstance().getCurrentUser();
-        mCurrentUserUid = mCurrent_user.getUid();
 
 
         //findview
