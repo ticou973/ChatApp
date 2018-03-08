@@ -59,7 +59,7 @@ public class ChatApp extends Application {
                 if (dataSnapshot != null){
 
                     mUsersDatabase.child("online").onDisconnect().setValue(false);
-                    mUsersDatabase.child("online").setValue(true);
+
 
                 }
 

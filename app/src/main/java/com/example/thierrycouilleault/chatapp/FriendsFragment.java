@@ -85,8 +85,6 @@ public class FriendsFragment extends android.support.v4.app.Fragment {
 
                 final String list_user_id = getRef(position).getKey();
 
-                Toast.makeText(getContext(), list_user_id, Toast.LENGTH_SHORT).show();
-
                 mUsersDatabase.child(list_user_id).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
