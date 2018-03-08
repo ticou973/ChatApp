@@ -37,6 +37,7 @@ public class ProfileActivity extends AppCompatActivity {
     private DatabaseReference mFriendsDatabase;
     private DatabaseReference mNotificationsDatabase;
     private DatabaseReference mRootRef;
+    private DatabaseReference mUserRef;
     private FirebaseUser mCurrent_user;
 
     private ProgressDialog mProgressDialog;
@@ -58,6 +59,7 @@ public class ProfileActivity extends AppCompatActivity {
         mFriendsReqDatabase = FirebaseDatabase.getInstance().getReference().child("Friend_req");
         mFriendsDatabase = FirebaseDatabase.getInstance().getReference().child("Friends");
         mNotificationsDatabase = FirebaseDatabase.getInstance().getReference().child("notifications");
+        mUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUserUid);
         mRootRef = FirebaseDatabase.getInstance().getReference();
 
         mCurrent_state = "Not friends";
@@ -351,5 +353,31 @@ public class ProfileActivity extends AppCompatActivity {
 
 
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+
+        if (mCurrent_user==null){
+
+            Toast.makeText(this, "This person doesn't exist !", Toast.LENGTH_SHORT).show();
+
+        } else {
+
+            mUserRef.child("online").setValue(true);
+
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if(mCurrent_user != null) {
+
+            mUserRef.child("online").setValue(false);
+        }
     }
 }

@@ -76,17 +76,20 @@ public class MainActivity extends AppCompatActivity {
 
             mUserRef.child("online").setValue(true);
 
-
         }
-
-
     }
 
     @Override
     protected void onStop() {
         super.onStop();
 
-       mUserRef.child("online").setValue(false);
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        if(currentUser != null) {
+
+            mUserRef.child("online").setValue(false);
+        }
     }
 
     private void sendToStart() {
@@ -113,8 +116,6 @@ public class MainActivity extends AppCompatActivity {
         super.onOptionsItemSelected(item);
 
         if (item.getItemId()==R.id.main_logout_btn) {
-
-
 
             FirebaseAuth.getInstance().signOut();
 
