@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
             FirebaseAuth.getInstance().signOut();
 
-            mUserRef.child("online").setValue(false);
+            mUserRef.child("online").setValue(ServerValue.TIMESTAMP);
 
             sendToStart();
 
