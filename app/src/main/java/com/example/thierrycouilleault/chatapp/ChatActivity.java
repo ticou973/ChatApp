@@ -65,6 +65,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private int itemPos = 0;
     private String mMlastKey = "";
+    private String mPrevKey="";
 
 
 
@@ -337,15 +338,28 @@ public class ChatActivity extends AppCompatActivity {
 
                 Messages message = dataSnapshot.getValue(Messages.class);
 
-                messagesList.add(itemPos++, message);
+                String messageKey = dataSnapshot.getKey();
+
+
+                if(!mPrevKey.equals(messageKey)){
+
+                    messagesList.add(itemPos++, message);
+
+                } else {
+
+                    mPrevKey = mMlastKey;
+                }
+
+
 
                 if(itemPos == 1){
 
-                    String messageKey = dataSnapshot.getKey();
-
-                    mMlastKey =messageKey;
+                    mPrevKey =messageKey;
 
                 }
+
+
+
 
                 messageAdapter.notifyDataSetChanged();
 
@@ -401,6 +415,7 @@ public class ChatActivity extends AppCompatActivity {
                     String messageKey = dataSnapshot.getKey();
 
                     mMlastKey =messageKey;
+                    mPrevKey = messageKey;
 
                 }
 
