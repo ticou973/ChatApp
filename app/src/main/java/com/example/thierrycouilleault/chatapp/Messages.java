@@ -6,7 +6,7 @@ package com.example.thierrycouilleault.chatapp;
 
 public class Messages {
 
-    String message, type;
+    String message, type, from;
     private long time;
     private boolean seen;
 
@@ -16,6 +16,18 @@ public class Messages {
     public Messages(String message, String type, long time, boolean seen) {
         this.message = message;
         this.type = type;
+        this.time = time;
+        this.seen = seen;
+    }
+
+    public Messages(String from) {
+        this.from = from;
+    }
+
+    public Messages(String message, String type, String from, long time, boolean seen) {
+        this.message = message;
+        this.type = type;
+        this.from = from;
         this.time = time;
         this.seen = seen;
     }
@@ -50,5 +62,13 @@ public class Messages {
 
     public void setSeen(boolean seen) {
         this.seen = seen;
+    }
+
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
     }
 }
