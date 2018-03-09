@@ -2,6 +2,7 @@ package com.example.thierrycouilleault.chatapp;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +23,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
@@ -50,11 +52,17 @@ public class ChatActivity extends AppCompatActivity {
     private ImageButton mChatAddBtn;
     private EditText mChatMessage;
     private RecyclerView mMessagesList;
+    private SwipeRefreshLayout mRefreshLayout;
+
 
     private final List<Messages> messagesList = new ArrayList<>();
     private LinearLayoutManager mLinearLayout;
 
     private MessageAdapter messageAdapter;
+
+    private static final int TOTAL_ITEMS_TO_LOAD = 10;
+    private int mCurrentPage = 1;
+
 
 
     @Override
@@ -84,6 +92,8 @@ public class ChatActivity extends AppCompatActivity {
 
         mUserRef = mRootRef.child("Users").child(mCurrent_user.getUid());
 
+
+// gestion de la custumisation de l'action bar
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View action_bar_view = inflater.inflate(R.layout.chat_custom_bar, null);
 
@@ -94,6 +104,8 @@ public class ChatActivity extends AppCompatActivity {
         mTitleView = findViewById(R.id.custom_bar_title);
         mLastSeenView = findViewById(R.id.custom_bar_seen);
         mProfileImage = findViewById(R.id.custom_bar_image);
+
+        mChatMessage = findViewById(R.id.chat_message);
 
 
        //gestion des boutons d'envoi et de message
@@ -120,20 +132,29 @@ public class ChatActivity extends AppCompatActivity {
         });
 
 
+        //Gestion du swipe
+        mRefreshLayout = findViewById(R.id.message_swipe_layout);
 
-        mChatMessage = findViewById(R.id.chat_message);
-        mChatMessage.setOnClickListener(new View.OnClickListener() {
+        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onClick(View view) {
+            public void onRefresh() {
+
+                mCurrentPage++;
+
+                messagesList.clear(); //pour éviter de garder les 10 précédents
+
+                loadMessage();
 
             }
         });
+
 
 
         //gestion de l'adapter
         messageAdapter = new MessageAdapter(messagesList);
 
         mMessagesList =findViewById(R.id.messages_list);
+
         mLinearLayout = new LinearLayoutManager(this);
 
         mMessagesList.setHasFixedSize(true);
@@ -253,6 +274,11 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
+
+
+
+
+
     private void sendMessage (){
 
         String message = mChatMessage.getText().toString();
@@ -299,7 +325,12 @@ public class ChatActivity extends AppCompatActivity {
 
     private void loadMessage (){
 
-        mRootRef.child("messages").child(mCurrent_user.getUid()).child(mChatUser).addChildEventListener(new ChildEventListener() {
+        DatabaseReference messageRef = mRootRef.child("messages").child(mCurrent_user.getUid()).child(mChatUser);
+
+        Query messageQuery = messageRef.limitToLast(mCurrentPage*TOTAL_ITEMS_TO_LOAD);
+
+
+        messageQuery.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
@@ -311,6 +342,9 @@ public class ChatActivity extends AppCompatActivity {
                 // Pour placer le ddernier envoyer en bas directement sans scroll.
 
                 mMessagesList.scrollToPosition(messagesList.size()-1);
+
+                //pour arrêter le refresh
+                mRefreshLayout.setRefreshing(false);
 
 
             }
