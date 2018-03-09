@@ -63,6 +63,9 @@ public class ChatActivity extends AppCompatActivity {
     private static final int TOTAL_ITEMS_TO_LOAD = 10;
     private int mCurrentPage = 1;
 
+    private int itemPos = 0;
+    private String mMlastKey = "";
+
 
 
     @Override
@@ -141,9 +144,9 @@ public class ChatActivity extends AppCompatActivity {
 
                 mCurrentPage++;
 
-                messagesList.clear(); //pour éviter de garder les 10 précédents
+               itemPos =0; //pour éviter de garder les 10 précédents
 
-                loadMessage();
+                loadMoreMessages();
 
             }
         });
@@ -323,6 +326,63 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
+    private void loadMoreMessages (){
+        DatabaseReference messageRef = mRootRef.child("messages").child(mCurrent_user.getUid()).child(mChatUser);
+
+        Query messageQuery = messageRef.orderByKey().endAt(mMlastKey).limitToLast(10);
+
+        messageQuery.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                Messages message = dataSnapshot.getValue(Messages.class);
+
+                messagesList.add(itemPos++, message);
+
+                if(itemPos == 1){
+
+                    String messageKey = dataSnapshot.getKey();
+
+                    mMlastKey =messageKey;
+
+                }
+
+                messageAdapter.notifyDataSetChanged();
+
+                // Pour placer le ddernier envoyer en bas directement sans scroll.
+
+               // mMessagesList.scrollToPosition(messagesList.size()-1);
+
+                //pour arrêter le refresh
+                mRefreshLayout.setRefreshing(false);
+
+                mLinearLayout.scrollToPositionWithOffset(10,0);
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
     private void loadMessage (){
 
         DatabaseReference messageRef = mRootRef.child("messages").child(mCurrent_user.getUid()).child(mChatUser);
@@ -333,6 +393,16 @@ public class ChatActivity extends AppCompatActivity {
         messageQuery.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                itemPos++;
+
+                if(itemPos == 1){
+
+                    String messageKey = dataSnapshot.getKey();
+
+                    mMlastKey =messageKey;
+
+                }
 
                 Messages message = dataSnapshot.getValue(Messages.class);
 
