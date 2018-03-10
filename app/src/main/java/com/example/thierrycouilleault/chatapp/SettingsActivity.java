@@ -39,7 +39,7 @@ import java.util.Random;
 import de.hdodenhof.circleimageview.CircleImageView;
 import id.zelory.compressor.Compressor;
 
-//pour l'image voir dans le build gradle le copile pour l'image view circle
+//pour l'image voir dans le build gradle le compile pour l'image view circle
 
 
 public class SettingsActivity extends AppCompatActivity {
@@ -159,6 +159,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == GALLERY_PICK && resultCode==RESULT_OK) {
 
@@ -199,8 +200,6 @@ public class SettingsActivity extends AppCompatActivity {
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     thumb_bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                     final byte[] thumb_byte = baos.toByteArray();
-
-
 
 
                     //storage avec un générateur de string aléatoire cf plus bas
@@ -274,7 +273,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
 
-        super.onActivityResult(requestCode, resultCode, data);
+
     }
 
     @Override
@@ -312,6 +311,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
+    //Code inutile mais permet de générer une String aléatoire
     public static String random() {
         Random generator = new Random();
         StringBuilder randomStringBuilder = new StringBuilder();

@@ -1,7 +1,10 @@
 package com.example.thierrycouilleault.chatapp;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +19,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -26,6 +31,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,6 +52,7 @@ public class ChatActivity extends AppCompatActivity {
     private TextView mTitleView;
     private TextView mLastSeenView;
     private CircleImageView mProfileImage;
+
 
     private FirebaseUser mCurrent_user;
     private DatabaseReference mUserRef;
@@ -67,6 +76,10 @@ public class ChatActivity extends AppCompatActivity {
     private String mMlastKey = "";
     private String mPrevKey="";
 
+    private static final int GALLERY_PICK = 1;
+
+    private StorageReference mImageStorage;
+
 
 
     @Override
@@ -76,6 +89,7 @@ public class ChatActivity extends AppCompatActivity {
 
         mChatUser = getIntent().getStringExtra("user_id");
         mChatUserName = getIntent().getStringExtra("user_name");
+        mImageStorage = FirebaseStorage.getInstance().getReference();
 
 
         mCurrent_user = FirebaseAuth.getInstance().getCurrentUser();
@@ -112,6 +126,7 @@ public class ChatActivity extends AppCompatActivity {
         mChatMessage = findViewById(R.id.chat_message);
 
 
+
        //gestion des boutons d'envoi et de message
 
         mChatAddBtn = findViewById(R.id.chat_add_btn);
@@ -119,16 +134,21 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                Intent galleryIntent = new Intent();
+                galleryIntent.setType("image/*");
+                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+
+                startActivityForResult(Intent.createChooser(galleryIntent,"SELECT IMAGE"), GALLERY_PICK);
+
             }
         });
 
 
-
+        //gestion de l'envoi de message
         mChatSendBtn = findViewById(R.id.chat_send_btn);
         mChatSendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
 
                 sendMessage();
 
@@ -151,7 +171,6 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
-
 
 
         //gestion de l'adapter
@@ -194,9 +213,7 @@ public class ChatActivity extends AppCompatActivity {
 
 
                     mLastSeenView.setText(lastSeenTime);
-
                 }
-
 
             }
 
@@ -231,10 +248,8 @@ public class ChatActivity extends AppCompatActivity {
                                 Log.d("CHAT_LOG", databaseError.getMessage().toString());
                             }
 
-
                         }
                     });
-
 
                 }
             }
@@ -279,8 +294,61 @@ public class ChatActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
 
+        if (requestCode == GALLERY_PICK && resultCode==RESULT_OK) {
+
+            Uri imageUri = data.getData();
+
+            final String current_user_ref = "messages/" + mCurrent_user.getUid() + "/" + mChatUser;
+            final String chat_user_ref = "messages/" + mChatUser + "/" + mCurrent_user.getUid();
+
+            DatabaseReference user_message_push = mRootRef.child("messages").child(mCurrent_user.getUid()).child(mChatUser).push();
+
+            final String push_id = user_message_push.getKey();
+
+            StorageReference filepath = mImageStorage.child("messages_images").child(push_id + ".jpg");
+
+            filepath.putFile(imageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+
+                    if (task.isSuccessful()){
+
+                        String download_url = task.getResult().getDownloadUrl().toString();
+
+                        Map messageMap = new HashMap();
+                        messageMap.put("message", download_url);
+                        messageMap.put("seen", false);
+                        messageMap.put( "type", "image");
+                        messageMap.put("time", ServerValue.TIMESTAMP);
+                        messageMap.put("from", mCurrent_user.getUid());
+
+                        Map messageUserMap = new HashMap();
+                        messageUserMap.put(current_user_ref + "/" + push_id, messageMap);
+                        messageUserMap.put(chat_user_ref + "/" + push_id, messageMap);
+
+                        mRootRef.updateChildren(messageUserMap, new DatabaseReference.CompletionListener() {
+                            @Override
+                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                                if(databaseError != null){
+
+                                    Log.d("CHAT_LOG", databaseError.getMessage().toString());
+                                }
+
+                            }
+                        });
+                    }
+
+                }
+            });
+
+        }
+    }
 
 
     private void sendMessage (){
@@ -315,15 +383,12 @@ public class ChatActivity extends AppCompatActivity {
 
                         Log.d("CHAT_LOG", databaseError.getMessage().toString());
                     }
-
-
                 }
             });
 
             mChatMessage.setText("");
 
         }
-
 
     }
 
@@ -351,15 +416,11 @@ public class ChatActivity extends AppCompatActivity {
                 }
 
 
-
                 if(itemPos == 1){
 
                     mPrevKey =messageKey;
 
                 }
-
-
-
 
                 messageAdapter.notifyDataSetChanged();
 
@@ -454,8 +515,6 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 }
 
