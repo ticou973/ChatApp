@@ -21,7 +21,11 @@ et de mettre dans le gradle le bon compile pour Okhttp
 
 
 plus loin gestion du Online
+
+
 */
+
+//Todo gérer le online
 
 public class ChatApp extends Application {
 

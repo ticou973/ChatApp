@@ -85,6 +85,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageViewHolder>{
 
 
 
+
+
             if(message_type.equals("text")){
 
                 if(from_user.equals(current_user_id)){

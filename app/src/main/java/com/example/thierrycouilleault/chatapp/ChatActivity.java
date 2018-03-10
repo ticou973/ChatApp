@@ -1,7 +1,9 @@
 package com.example.thierrycouilleault.chatapp;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -34,13 +36,18 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.theartofdev.edmodo.cropper.CropImage;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import id.zelory.compressor.Compressor;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -77,8 +84,13 @@ public class ChatActivity extends AppCompatActivity {
     private String mPrevKey="";
 
     private static final int GALLERY_PICK = 1;
+    private ProgressDialog imageProgress;
 
     private StorageReference mImageStorage;
+    private Bitmap thumb_bitmap;
+    private Byte [] thumb_byte;
+
+
 
 
 
@@ -303,51 +315,123 @@ public class ChatActivity extends AppCompatActivity {
 
             Uri imageUri = data.getData();
 
-            final String current_user_ref = "messages/" + mCurrent_user.getUid() + "/" + mChatUser;
-            final String chat_user_ref = "messages/" + mChatUser + "/" + mCurrent_user.getUid();
-
-            DatabaseReference user_message_push = mRootRef.child("messages").child(mCurrent_user.getUid()).child(mChatUser).push();
-
-            final String push_id = user_message_push.getKey();
-
-            StorageReference filepath = mImageStorage.child("messages_images").child(push_id + ".jpg");
-
-            filepath.putFile(imageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-
-                    if (task.isSuccessful()){
-
-                        String download_url = task.getResult().getDownloadUrl().toString();
-
-                        Map messageMap = new HashMap();
-                        messageMap.put("message", download_url);
-                        messageMap.put("seen", false);
-                        messageMap.put( "type", "image");
-                        messageMap.put("time", ServerValue.TIMESTAMP);
-                        messageMap.put("from", mCurrent_user.getUid());
-
-                        Map messageUserMap = new HashMap();
-                        messageUserMap.put(current_user_ref + "/" + push_id, messageMap);
-                        messageUserMap.put(chat_user_ref + "/" + push_id, messageMap);
-
-                        mRootRef.updateChildren(messageUserMap, new DatabaseReference.CompletionListener() {
-                            @Override
-                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-
-                                if(databaseError != null){
-
-                                    Log.d("CHAT_LOG", databaseError.getMessage().toString());
-                                }
-
-                            }
-                        });
-                    }
-
-                }
-            });
+            CropImage.activity(imageUri)
+                    .setAspectRatio(1, 1)
+                    .start(this);
 
         }
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+
+
+            if (resultCode == RESULT_OK) {
+
+                imageProgress = new ProgressDialog(ChatActivity.this);
+                imageProgress.setTitle("Uploading Image...");
+                imageProgress.setMessage("Please wait the upload !");
+                imageProgress.setCanceledOnTouchOutside(false);
+                imageProgress.show();
+
+                Uri resultUri = result.getUri();
+
+                //compression des images pour les thumbnails
+                File thumb_file = new File(resultUri.getPath());
+
+                try {
+                    thumb_bitmap = new Compressor(this)
+                            .setMaxWidth(200)
+                            .setMaxHeight(200)
+                            .setQuality(75)
+                            .compressToBitmap(thumb_file);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                thumb_bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                final byte[] thumb_byte = baos.toByteArray();
+
+
+                final String current_user_ref = "messages/" + mCurrent_user.getUid() + "/" + mChatUser;
+                final String chat_user_ref = "messages/" + mChatUser + "/" + mCurrent_user.getUid();
+
+                DatabaseReference user_message_push = mRootRef.child("messages").child(mCurrent_user.getUid()).child(mChatUser).push();
+
+                final String push_id = user_message_push.getKey();
+
+                StorageReference filepath = mImageStorage.child("messages_images").child(push_id + ".jpg");
+                final StorageReference thumb_path = mImageStorage.child("messages_images").child("thumbs").child(push_id + ".jpg");
+
+
+                filepath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+
+                        if (task.isSuccessful()){
+
+                            final String download_url = task.getResult().getDownloadUrl().toString();
+
+                            UploadTask uploadTask =thumb_path.putBytes(thumb_byte);
+                            uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> thumb_task) {
+
+                                    String thumb_downloadUrl = thumb_task.getResult().getDownloadUrl().toString();
+
+                                    if (thumb_task.isSuccessful()){
+
+                                        Map messageMap = new HashMap();
+                                        messageMap.put("message", thumb_downloadUrl);
+                                        messageMap.put("seen", false);
+                                        messageMap.put( "type", "image");
+                                        messageMap.put("time", ServerValue.TIMESTAMP);
+                                        messageMap.put("from", mCurrent_user.getUid());
+
+                                        Map messageUserMap = new HashMap();
+                                        messageUserMap.put(current_user_ref + "/" + push_id, messageMap);
+                                        messageUserMap.put(chat_user_ref + "/" + push_id, messageMap);
+
+                                        mRootRef.updateChildren(messageUserMap, new DatabaseReference.CompletionListener() {
+                                            @Override
+                                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                                                if(databaseError != null){
+
+                                                    Log.d("CHAT_LOG", databaseError.getMessage().toString());
+                                                }else{
+
+                                                    imageProgress.dismiss();
+                                                    Toast.makeText(ChatActivity.this, "Succcess Uploading", Toast.LENGTH_SHORT).show();
+
+                                                }
+
+                                            }
+                                        });
+                                    }else{
+                                        imageProgress.dismiss();
+                                        Toast.makeText(ChatActivity.this, "Error in uploading thumbnail...", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                }
+                            });
+
+                        }else{
+
+                            imageProgress.dismiss();
+                            Toast.makeText(ChatActivity.this, "Error in uploading...", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+                Log.d("CROP",error.toString());
+            }
+
+        }
+
     }
 
 
