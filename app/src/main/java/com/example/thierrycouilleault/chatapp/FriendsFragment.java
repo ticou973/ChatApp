@@ -132,8 +132,6 @@ public class FriendsFragment extends android.support.v4.app.Fragment {
                                             chatIntent.putExtra("user_id", list_user_id);
                                             chatIntent.putExtra("user_name", userName);
                                             startActivity(chatIntent);
-
-
                                         }
 
                                     }
@@ -144,10 +142,6 @@ public class FriendsFragment extends android.support.v4.app.Fragment {
                             }
                         });
 
-
-
-
-
                     }
 
                     @Override
@@ -155,7 +149,6 @@ public class FriendsFragment extends android.support.v4.app.Fragment {
 
                     }
                 });
-
 
             }
 

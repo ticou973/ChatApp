@@ -91,9 +91,6 @@ public class ChatActivity extends AppCompatActivity {
     private Byte [] thumb_byte;
 
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,7 +110,6 @@ public class ChatActivity extends AppCompatActivity {
         mUserRef = mRootRef.child("Users").child(mCurrent_user.getUid());
 
 
-
         //gestion de l'action bar
 
         mChatToolbar = findViewById(R.id.chat_app_bar);
@@ -125,13 +121,14 @@ public class ChatActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(mChatUserName);
 
 
+
         // gestion de la custumisation de l'action bar
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View action_bar_view = inflater.inflate(R.layout.chat_custom_bar, null);
 
         actionBar.setCustomView(action_bar_view);
 
-        // ----Custum Action bar Items
+                         // ----Custum Action bar Items
 
         mTitleView = findViewById(R.id.custom_bar_title);
         mLastSeenView = findViewById(R.id.custom_bar_seen);
@@ -169,6 +166,19 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
+        //gestion de l'adapter et du recyclerView
+
+        messageAdapter = new MessageAdapter(messagesList);
+
+        mLinearLayout = new LinearLayoutManager(this);
+
+        mMessagesList =findViewById(R.id.messages_list);
+        mMessagesList.setHasFixedSize(true);
+        mMessagesList.setLayoutManager(mLinearLayout);
+        mMessagesList.setAdapter(messageAdapter);
+
+        loadMessage();
+
 
        //gestion des boutons d'envoi et de message
 
@@ -187,6 +197,7 @@ public class ChatActivity extends AppCompatActivity {
         });
 
 
+
         //gestion de l'envoi de message
         mChatSendBtn = findViewById(R.id.chat_send_btn);
         mChatSendBtn.setOnClickListener(new View.OnClickListener() {
@@ -197,6 +208,7 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
+
 
 
         //Gestion du swipe
@@ -210,32 +222,16 @@ public class ChatActivity extends AppCompatActivity {
                itemPos =0; //pour éviter de garder les 10 précédents
 
                 loadMoreMessages();
-
             }
         });
 
 
-        //gestion de l'adapter
 
-
-        messageAdapter = new MessageAdapter(messagesList);
-
-        mLinearLayout = new LinearLayoutManager(this);
-
-        mMessagesList =findViewById(R.id.messages_list);
-        mMessagesList.setHasFixedSize(true);
-        mMessagesList.setLayoutManager(mLinearLayout);
-        mMessagesList.setAdapter(messageAdapter);
-
-        loadMessage();
-
-
-
+        //Ecriture base de données pour écrire le nouveau "Chat"
 
         mRootRef.child("Chat").child(mCurrent_user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
 
                 if(!dataSnapshot.hasChild(mChatUser)){
 
@@ -255,13 +251,10 @@ public class ChatActivity extends AppCompatActivity {
 
                                 Log.d("CHAT_LOG", databaseError.getMessage().toString());
                             }
-
                         }
                     });
-
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -439,6 +432,8 @@ public class ChatActivity extends AppCompatActivity {
 
         if (!TextUtils.isEmpty(message)){
 
+            //Ecriture dans la DB du message
+
             String current_user_ref = "messages/" + mCurrent_user.getUid() + "/" + mChatUser;
             String chat_user_ref = "messages/" + mChatUser + "/" + mCurrent_user.getUid();
 
@@ -470,7 +465,8 @@ public class ChatActivity extends AppCompatActivity {
                 }
             });
 
-            mChatMessage.setText("");
+
+            mChatMessage.setText(""); //Effacement du texte envoyé
 
         } else {
 
@@ -505,7 +501,7 @@ public class ChatActivity extends AppCompatActivity {
 
                 if(itemPos == 1){
 
-                    mPrevKey =messageKey;
+                    mMlastKey =messageKey;
 
                 }
 
@@ -572,7 +568,7 @@ public class ChatActivity extends AppCompatActivity {
                 messagesList.add(message);
                 messageAdapter.notifyDataSetChanged();
 
-                // Pour placer le ddernier envoyer en bas directement sans scroll.
+                // Pour placer le dernier envoyer en bas directement sans scroll.
 
                 mMessagesList.scrollToPosition(messagesList.size()-1);
 
