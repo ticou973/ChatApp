@@ -84,9 +84,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageViewHolder>{
 
 
 
-
-
-
             if(message_type.equals("text")){
 
                 if(from_user.equals(current_user_id)){
@@ -110,8 +107,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageViewHolder>{
 
                 holder.messageText.setVisibility(View.INVISIBLE);
 
-                Picasso.with(holder.profileImage.getContext()).load(c.getMessage())
-                        .placeholder(R.drawable.default_avatar).into(holder.messageImage);
+                //todo voir la pertinence du placeholder
+
+                Picasso.with(holder.messageImage.getContext()).load(c.getMessage()).into(holder.messageImage);
 
 
             }

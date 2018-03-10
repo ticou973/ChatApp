@@ -144,9 +144,7 @@ public class SettingsActivity extends AppCompatActivity {
                         }
                     });
 
-
                 }
-
             }
 
             @Override
@@ -285,7 +283,6 @@ public class SettingsActivity extends AppCompatActivity {
 
         } else {
 
-            Toast.makeText(this, "hello", Toast.LENGTH_SHORT).show();
 
             mUserDatabase.child("online").setValue(true);
 

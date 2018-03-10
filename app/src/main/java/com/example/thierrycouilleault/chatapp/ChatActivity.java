@@ -99,31 +99,33 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        mChatMessage = findViewById(R.id.chat_message);
+
         mChatUser = getIntent().getStringExtra("user_id");
         mChatUserName = getIntent().getStringExtra("user_name");
-        mImageStorage = FirebaseStorage.getInstance().getReference();
 
+
+        //Firebase
 
         mCurrent_user = FirebaseAuth.getInstance().getCurrentUser();
+        mImageStorage = FirebaseStorage.getInstance().getReference();
+        mRootRef = FirebaseDatabase.getInstance().getReference();
+        mUserRef = mRootRef.child("Users").child(mCurrent_user.getUid());
+
+
+
+        //gestion de l'action bar
 
         mChatToolbar = findViewById(R.id.chat_app_bar);
         setSupportActionBar(mChatToolbar);
 
         actionBar = getSupportActionBar();
-
-
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowCustomEnabled(true);
-
         getSupportActionBar().setTitle(mChatUserName);
 
 
-        mRootRef = FirebaseDatabase.getInstance().getReference();
-
-        mUserRef = mRootRef.child("Users").child(mCurrent_user.getUid());
-
-
-// gestion de la custumisation de l'action bar
+        // gestion de la custumisation de l'action bar
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View action_bar_view = inflater.inflate(R.layout.chat_custom_bar, null);
 
@@ -135,8 +137,37 @@ public class ChatActivity extends AppCompatActivity {
         mLastSeenView = findViewById(R.id.custom_bar_seen);
         mProfileImage = findViewById(R.id.custom_bar_image);
 
-        mChatMessage = findViewById(R.id.chat_message);
+        mTitleView.setText(mChatUserName);
 
+        mRootRef.child("Users").child(mChatUser).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                String online = dataSnapshot.child("online").getValue().toString();
+                String image = dataSnapshot.child("image").getValue().toString();
+
+                if (online.equals("true")) {
+
+                    mLastSeenView.setText("Online");
+
+                } else {
+
+                    GetTimeAgo getTimeAgo = new GetTimeAgo();
+
+                    long lastTime = Long.parseLong(online);
+
+                    String lastSeenTime = getTimeAgo.getTimeAgo(lastTime, getApplicationContext());
+
+                    mLastSeenView.setText(lastSeenTime);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 
        //gestion des boutons d'envoi et de message
@@ -174,7 +205,6 @@ public class ChatActivity extends AppCompatActivity {
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-
                 mCurrentPage++;
 
                itemPos =0; //pour éviter de garder les 10 précédents
@@ -186,54 +216,20 @@ public class ChatActivity extends AppCompatActivity {
 
 
         //gestion de l'adapter
-        messageAdapter = new MessageAdapter(messagesList);
 
-        mMessagesList =findViewById(R.id.messages_list);
+
+        messageAdapter = new MessageAdapter(messagesList);
 
         mLinearLayout = new LinearLayoutManager(this);
 
+        mMessagesList =findViewById(R.id.messages_list);
         mMessagesList.setHasFixedSize(true);
         mMessagesList.setLayoutManager(mLinearLayout);
-
-
         mMessagesList.setAdapter(messageAdapter);
 
         loadMessage();
 
 
-        mTitleView.setText(mChatUserName);
-
-        mRootRef.child("Users").child(mChatUser).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                String online = dataSnapshot.child("online").getValue().toString();
-                String image = dataSnapshot.child("image").getValue().toString();
-
-                if (online.equals("true")) {
-
-                    mLastSeenView.setText("Online");
-
-
-                } else {
-
-                    GetTimeAgo getTimeAgo = new GetTimeAgo();
-
-                    long lastTime = Long.parseLong(online);
-
-                    String lastSeenTime = getTimeAgo.getTimeAgo(lastTime, getApplicationContext());
-
-
-                    mLastSeenView.setText(lastSeenTime);
-                }
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
 
 
         mRootRef.child("Chat").child(mCurrent_user.getUid()).addValueEventListener(new ValueEventListener() {
@@ -340,8 +336,8 @@ public class ChatActivity extends AppCompatActivity {
 
                 try {
                     thumb_bitmap = new Compressor(this)
-                            .setMaxWidth(200)
-                            .setMaxHeight(200)
+                            .setMaxWidth(500)
+                            .setMaxHeight(500)
                             .setQuality(75)
                             .compressToBitmap(thumb_file);
                 } catch (IOException e) {
@@ -369,6 +365,8 @@ public class ChatActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
 
                         if (task.isSuccessful()){
+
+                            //Todo gérer les photos non compressées
 
                             final String download_url = task.getResult().getDownloadUrl().toString();
 
@@ -427,7 +425,7 @@ public class ChatActivity extends AppCompatActivity {
 
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
-                Log.d("CROP",error.toString());
+                Log.d("CROP", error.toString());
             }
 
         }
@@ -447,6 +445,8 @@ public class ChatActivity extends AppCompatActivity {
             DatabaseReference user_message_push = mRootRef.child("messages").child(mCurrent_user.getUid()).child(mChatUser).push();
 
             String push_id = user_message_push.getKey();
+
+            //Todo gérer le "seen"
 
             Map messageMap = new HashMap();
             messageMap.put("message", message);
@@ -472,6 +472,9 @@ public class ChatActivity extends AppCompatActivity {
 
             mChatMessage.setText("");
 
+        } else {
+
+            Toast.makeText(this, "Nothing to send !", Toast.LENGTH_SHORT).show();
         }
 
     }
