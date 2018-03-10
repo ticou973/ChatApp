@@ -507,7 +507,7 @@ public class ChatActivity extends AppCompatActivity {
 
                 messageAdapter.notifyDataSetChanged();
 
-                // Pour placer le ddernier envoyer en bas directement sans scroll.
+                // Pour placer le dernier envoyer en bas directement sans scroll.
 
                // mMessagesList.scrollToPosition(messagesList.size()-1);
 
