@@ -109,7 +109,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageViewHolder>{
 
                 //todo voir la pertinence du placeholder
 
-                Picasso.with(holder.messageImage.getContext()).load(c.getMessage()).into(holder.messageImage);
+                Picasso.with(holder.profileImage.getContext()).load(c.getMessage()).into(holder.messageImage);
 
 
             }
