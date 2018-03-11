@@ -6,21 +6,33 @@ package com.example.thierrycouilleault.chatapp;
 
 public class Requests {
 
-private String requestType;
+    private String request_type;
+    private String request_date;
 
     public Requests() {
     }
 
-    public Requests(String requestType) {
-        this.requestType = requestType;
+    public String getRequest_type() {
+        return request_type;
     }
 
-
-    public String getRequestType() {
-        return requestType;
+    public void setRequest_type(String request_type) {
+        this.request_type = request_type;
     }
 
-    public void setRequestType(String requestType) {
-        this.requestType = requestType;
+    public String getRequest_date() {
+        return request_date;
+    }
+
+    public void setRequest_date(String request_date) {
+        this.request_date = request_date;
+    }
+
+    public Requests(String request_type, String request_date) {
+        this.request_type = request_type;
+        this.request_date = request_date;
+
+
+
     }
 }

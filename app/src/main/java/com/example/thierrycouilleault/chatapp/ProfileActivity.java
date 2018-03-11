@@ -103,6 +103,8 @@ public class ProfileActivity extends AppCompatActivity {
 
                 if (mCurrent_state.equals("Not friends")){
 
+                    final String currentDate = DateFormat.getDateTimeInstance().format(new Date());
+
                     DatabaseReference newNotificationRef = mRootRef.child("notifications").child(user_id).push();
                     String newNotificationId = newNotificationRef.getKey();
 
@@ -112,7 +114,9 @@ public class ProfileActivity extends AppCompatActivity {
 
                     Map requestMap = new HashMap();
                     requestMap.put("Friend_req/" + mCurrent_user.getUid()+"/" + user_id + "/request_type", "sent");
+                    requestMap.put("Friend_req/" + mCurrent_user.getUid()+"/" + user_id + "/request_date", currentDate);
                     requestMap.put("Friend_req/" + user_id + "/" + mCurrent_user.getUid()+ "/request_type", "received");
+                    requestMap.put("Friend_req/" + user_id + "/" + mCurrent_user.getUid()+ "/request_date", currentDate);
                     requestMap.put("notifications/" + user_id + "/" + newNotificationId, notificationData);
 
                     profileDeclineRequest.setVisibility(View.INVISIBLE);
