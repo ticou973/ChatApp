@@ -49,6 +49,8 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 import id.zelory.compressor.Compressor;
 
+//todo mettre l'image dans l'appbar
+
 public class ChatActivity extends AppCompatActivity {
 
     private String mChatUser, mChatUserName;

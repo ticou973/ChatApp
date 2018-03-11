@@ -30,6 +30,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /**
  * A simple {@link Fragment} subclass.
  */
+
+//todo remove "chat" quand unfriend
 public class FriendsFragment extends android.support.v4.app.Fragment {
 
     private View mMainView;
@@ -53,10 +55,17 @@ public class FriendsFragment extends android.support.v4.app.Fragment {
         mMainView =inflater.inflate(R.layout.fragment_friends, container, false);
 
         mAuth = FirebaseAuth.getInstance();
-        mCurrent_user_id = mAuth.getCurrentUser().getUid();
+
+        //pour ne pas que cela crash avec un nul object
+        if (mAuth.getCurrentUser() != null) {
+
+            mCurrent_user_id = mAuth.getCurrentUser().getUid();
+
+        }
 
         mfriendsDatabase = FirebaseDatabase.getInstance().getReference().child("Friends").child(mCurrent_user_id);
         mfriendsDatabase.keepSynced(true);
+
         mUsersDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
         mUsersDatabase.keepSynced(true);
 
