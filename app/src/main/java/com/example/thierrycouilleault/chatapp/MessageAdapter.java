@@ -107,8 +107,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageViewHolder>{
 
                 holder.messageText.setVisibility(View.INVISIBLE);
 
-                //todo voir la pertinence du placeholder
-
                 Picasso.with(holder.profileImage.getContext()).load(c.getMessage()).into(holder.messageImage);
 
 

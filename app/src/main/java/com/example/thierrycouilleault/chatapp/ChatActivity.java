@@ -50,7 +50,6 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 import id.zelory.compressor.Compressor;
 
-//todo mettre l'image dans l'appbar
 
 //todo ajouter prendre photos, ajouter vidéos, prendre vidéos, ajouter sons, prendre sons, géolocalisation
 

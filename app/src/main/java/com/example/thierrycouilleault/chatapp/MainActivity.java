@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 
-                    builder.setTitle("Do you want invite some friends ?");
+                    builder.setTitle("Do you want to invite some friends ?");
                     builder.setItems(options, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
                             } else if(i==1) {
 
-                                Toast.makeText(MainActivity.this, "Friendship is important...", Toast.LENGTH_LONG).show();
+                                Toast.makeText(MainActivity.this, "Friendship is so important...", Toast.LENGTH_LONG).show();
                             }
 
                         }
@@ -106,9 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
                     builder.show();
 
-
                 }
-
             }
 
             @Override

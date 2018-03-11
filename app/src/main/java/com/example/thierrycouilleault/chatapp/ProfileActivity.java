@@ -76,6 +76,7 @@ public class ProfileActivity extends AppCompatActivity {
         profileDisplayName.setText(user_id);
 
 
+
         profileDisplayStatus = findViewById(R.id.profile_status);
 
         profileDisplayTotalFriends = findViewById(R.id.profile_totalFriends);
@@ -92,6 +93,23 @@ public class ProfileActivity extends AppCompatActivity {
 
 
         }
+
+        //gestion du nombre d'amis
+        mFriendsDatabase.child(user_id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                int nbFriends = (int) (dataSnapshot.getChildrenCount());
+
+                profileDisplayTotalFriends.setText("Total Friends : " + Integer.toString(nbFriends));
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 
         profileSendRequestBtn.setOnClickListener(new View.OnClickListener() {
@@ -304,6 +322,7 @@ public class ProfileActivity extends AppCompatActivity {
                 mFriendsReqDatabase.child(mCurrent_user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+
 
                         if(dataSnapshot.hasChild(user_id)){
                             String req_type = dataSnapshot.child(user_id).child("request_type").getValue().toString();
