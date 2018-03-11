@@ -45,11 +45,11 @@
 
     <ImageView
         android:id="@+id/friend_single_online_icon"
-        android:layout_width="23dp"
-        android:layout_height="23dp"
-        android:layout_alignBottom="@+id/friend_single_name"
-        android:layout_marginStart="19dp"
-        android:layout_toEndOf="@+id/friend_single_name"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/friend_single_name"
+        android:layout_marginEnd="13dp"
         android:visibility="invisible"
         app:srcCompat="@drawable/green_dot1" />
 

@@ -1,5 +1,7 @@
 package com.example.thierrycouilleault.chatapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -8,12 +10,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
 
     private DatabaseReference mUserRef;
+    private DatabaseReference mFriendsRef;
 
     private String mCurrentUserId;
 
@@ -47,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
             mCurrentUserId = mAuth.getCurrentUser().getUid();
 
             mUserRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUserId);
+            mFriendsRef = FirebaseDatabase.getInstance().getReference().child("Friends");
 
         }
 
@@ -65,6 +73,52 @@ public class MainActivity extends AppCompatActivity {
 
         mTabLayout = findViewById(R.id.main_tabs);
         mTabLayout.setupWithViewPager(mViewPager);
+
+        //Pas d'amis
+
+        mFriendsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if (!dataSnapshot.hasChild(mCurrentUserId)){
+
+                    CharSequence options[] = new CharSequence[] {"Yes, I want it...", "No, that's sucks"};
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+                    builder.setTitle("Do you want invite some friends ?");
+                    builder.setItems(options, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            if (i==0){
+
+                                Intent usersIntent = new Intent (MainActivity.this, UsersActivity.class);
+                                startActivity(usersIntent);
+
+                            } else if(i==1) {
+
+                                Toast.makeText(MainActivity.this, "Friendship is important...", Toast.LENGTH_LONG).show();
+                            }
+
+                        }
+                    });
+
+                    builder.show();
+
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
 
     }
 

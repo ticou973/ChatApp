@@ -31,7 +31,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * A simple {@link Fragment} subclass.
  */
 
-//todo remove "chat" quand unfriend
+
 public class FriendsFragment extends android.support.v4.app.Fragment {
 
     private View mMainView;
@@ -119,6 +119,8 @@ public class FriendsFragment extends android.support.v4.app.Fragment {
                         viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
+
+                                //gestion de l'alertDialog
 
                                 CharSequence options[] = new CharSequence[] {"Open Profile", "Send Message"};
 

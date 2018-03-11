@@ -46,6 +46,7 @@ public class ProfileActivity extends AppCompatActivity {
     private String mCurrentUserUid;
 
 //TOdo total friends à faire
+    //ajouter pour le départ "pas d'amis ?"
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -216,13 +217,26 @@ public class ProfileActivity extends AppCompatActivity {
                             mFriendsDatabase.child(user_id).child(mCurrent_user.getUid()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
+                                    mRootRef.child("Chat").child(mCurrent_user.getUid()).child(user_id).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            mRootRef.child("Chat").child(user_id).child(mCurrent_user.getUid()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
 
-                                    profileSendRequestBtn.setEnabled(true);
-                                    mCurrent_state ="Not friends";
-                                    profileSendRequestBtn.setText("Send Friend Request");
+                                                    profileSendRequestBtn.setEnabled(true);
+                                                    mCurrent_state ="Not friends";
+                                                    profileSendRequestBtn.setText("Send Friend Request");
 
-                                    profileDeclineRequest.setVisibility(View.INVISIBLE);
-                                    profileDeclineRequest.setEnabled(false);
+                                                    profileDeclineRequest.setVisibility(View.INVISIBLE);
+                                                    profileDeclineRequest.setEnabled(false);
+
+                                                }
+                                            });
+
+
+                                        }
+                                    });
 
                                 }
                             });

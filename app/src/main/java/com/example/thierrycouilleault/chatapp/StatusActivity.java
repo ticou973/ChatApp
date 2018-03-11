@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,6 +25,7 @@ public class StatusActivity extends AppCompatActivity {
 
     private TextInputLayout mStatus;
     private Button mSaveStatusBtn;
+    private TextView mCurrentStatus;
 
     private DatabaseReference mStatusDatabase;
     private FirebaseUser mCurrentUser;
@@ -41,7 +43,9 @@ public class StatusActivity extends AppCompatActivity {
         String status = getIntent().getStringExtra("status_change");
 
 
-        mStatus.getEditText().setText(status);
+        mCurrentStatus = findViewById(R.id.current_status);
+        mCurrentStatus.setText(status);
+
 
         mSaveStatusBtn = findViewById(R.id.save_status_btn);
         mSaveStatusBtn.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +61,8 @@ public class StatusActivity extends AppCompatActivity {
                 mProgress.show();
 
                 String status = mStatus.getEditText().getText().toString();
+
+                mCurrentStatus.setText(status);
 
                 mStatusDatabase.child("status").setValue(status).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override

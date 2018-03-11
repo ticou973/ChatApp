@@ -36,6 +36,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.ByteArrayOutputStream;
@@ -50,6 +51,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import id.zelory.compressor.Compressor;
 
 //todo mettre l'image dans l'appbar
+
+//todo ajouter prendre photos, ajouter vidéos, prendre vidéos, ajouter sons, prendre sons, géolocalisation
+
+
+//todo gérer les synchronisations et les effacements locaux
+
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -134,6 +141,8 @@ public class ChatActivity extends AppCompatActivity {
 
         mTitleView = findViewById(R.id.custom_bar_title);
         mLastSeenView = findViewById(R.id.custom_bar_seen);
+
+
         mProfileImage = findViewById(R.id.custom_bar_image);
 
         mTitleView.setText(mChatUserName);
@@ -143,7 +152,7 @@ public class ChatActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 String online = dataSnapshot.child("online").getValue().toString();
-                String image = dataSnapshot.child("image").getValue().toString();
+                String thumb_image = dataSnapshot.child("thumb_image").getValue().toString();
 
                 if (online.equals("true")) {
 
@@ -159,6 +168,8 @@ public class ChatActivity extends AppCompatActivity {
 
                     mLastSeenView.setText(lastSeenTime);
                 }
+
+                Picasso.with(ChatActivity.this).load(thumb_image).placeholder(R.drawable.default_avatar).into(mProfileImage);
 
             }
 
