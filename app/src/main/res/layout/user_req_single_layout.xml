@@ -20,7 +20,7 @@
         android:layout_alignTop="@+id/req_user_image"
         android:layout_marginStart="23dp"
         android:layout_toEndOf="@+id/req_user_image"
-        android:text="Display Name"
+        android:text="@string/display_name"
         android:textColor="@android:color/black"
         android:textSize="18sp" />
 
@@ -30,6 +30,6 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/req_user_name"
         android:layout_below="@+id/req_user_name"
-        android:text="Default Date" />
+        android:text="@string/default_date" />
 
 </RelativeLayout>

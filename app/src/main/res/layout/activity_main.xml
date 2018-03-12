@@ -25,19 +25,19 @@
                 android:id="@+id/tab_requests"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Requests" />
+                android:text="@string/requests" />
 
             <android.support.design.widget.TabItem
                 android:id="@+id/tab_chats"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="CHATS" />
+                android:text="@string/chats" />
 
             <android.support.design.widget.TabItem
                 android:id="@+id/tab_friends"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="FRIENDS" />
+                android:text="@string/friends" />
         </android.support.design.widget.TabLayout>
 
     </android.support.design.widget.AppBarLayout>

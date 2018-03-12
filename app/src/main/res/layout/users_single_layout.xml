@@ -30,7 +30,7 @@
         android:layout_alignTop="@+id/chat_users_single_image"
         android:layout_marginStart="23dp"
         android:layout_toEndOf="@+id/chat_users_single_image"
-        android:text="Display Name"
+        android:text="@string/display_name"
         android:textColor="@android:color/black"
         android:textSize="18sp" />
 
@@ -40,6 +40,6 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/chat_user_name"
         android:layout_below="@+id/chat_user_name"
-        android:text="Default Message" />
+        android:text="@string/default_message" />
 
 </RelativeLayout>

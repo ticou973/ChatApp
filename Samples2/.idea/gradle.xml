@@ -9,6 +9,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/WigetsSuite" />
+            <option value="$PROJECT_DIR$/androidanimation" />
             <option value="$PROJECT_DIR$/database" />
             <option value="$PROJECT_DIR$/galleriephotos" />
             <option value="$PROJECT_DIR$/intent" />

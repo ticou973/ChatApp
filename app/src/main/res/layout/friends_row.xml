@@ -21,7 +21,7 @@
         android:layout_alignTop="@+id/friend_single_image"
         android:layout_marginStart="24dp"
         android:layout_toEndOf="@+id/friend_single_image"
-        android:text="Display Name"
+        android:text="@string/display_name"
         android:textColor="@android:color/black"
         android:textSize="18sp" />
 
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/friend_single_image"
         android:layout_alignStart="@+id/friend_single_name"
-        android:text="Default date"
+        android:text="@string/default_date"
         android:textSize="12sp" />
 
     <TextView
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/friend_single_date"
         android:layout_below="@+id/friend_single_name"
-        android:text="Default Status"
+        android:text="@string/default_status"
         android:textSize="12sp" />
 
     <ImageView

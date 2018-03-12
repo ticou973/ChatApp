@@ -45,8 +45,6 @@ public class ProfileActivity extends AppCompatActivity {
     private String mCurrent_state;
     private String mCurrentUserUid;
 
-//TOdo total friends à faire
-    //ajouter pour le départ "pas d'amis ?"
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

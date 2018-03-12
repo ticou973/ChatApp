@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">ChatApp</string>
-    <string name="need_a_new_account">Need a new account ?</string>
     <string name="welcome_to_chatapp">Welcome to ChatApp</string>
     <string name="display_name">Display Name</string>
     <string name="email">Email</string>
@@ -11,4 +10,30 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="need_a_new_account">Need a new Account ?</string>
+    <string name="send_a_message">Send a message</string>
+    <string name="log_in">Log in</string>
+    <string name="login_to_your_account">Login to your Account</string>
+    <string name="chats">CHATS</string>
+    <string name="friends">FRIENDS</string>
+    <string name="requests">Requests</string>
+    <string name="current_user_status">Current User Status</string>
+    <string name="total_friends">Total Friends</string>
+    <string name="send_friend_request">Send friend Request</string>
+    <string name="decline_friend_request">Decline Friend request</string>
+    <string name="create_account">CREATE ACCOUNT</string>
+    <string name="create_an_account">Create an Account</string>
+    <string name="hi_i_m_using_chat_app">Hi, I\'m using Chat App</string>
+    <string name="change_image">Change Image</string>
+    <string name="change_status">Change Status</string>
+    <string name="already_have_account">Already Have account</string>
+    <string name="save_status">Save status</string>
+    <string name="new_status">New Status...</string>
+    <string name="last_seen">Last seen</string>
+    <string name="default_date">Default date</string>
+    <string name="default_status">Default Status</string>
+    <string name="name">Name</string>
+    <string name="default_message">Default Message</string>
+
+
 </resources>

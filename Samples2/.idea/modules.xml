@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Samples2.iml" filepath="$PROJECT_DIR$/Samples2.iml" />
       <module fileurl="file://$PROJECT_DIR$/WigetsSuite/WigetsSuite.iml" filepath="$PROJECT_DIR$/WigetsSuite/WigetsSuite.iml" />
+      <module fileurl="file://$PROJECT_DIR$/androidanimation/androidanimation.iml" filepath="$PROJECT_DIR$/androidanimation/androidanimation.iml" />
       <module fileurl="file://$PROJECT_DIR$/database/database.iml" filepath="$PROJECT_DIR$/database/database.iml" />
       <module fileurl="file://$PROJECT_DIR$/galleriephotos/galleriephotos.iml" filepath="$PROJECT_DIR$/galleriephotos/galleriephotos.iml" />
       <module fileurl="file://$PROJECT_DIR$/intent/intent.iml" filepath="$PROJECT_DIR$/intent/intent.iml" />

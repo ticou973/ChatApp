@@ -76,44 +76,54 @@ public class MainActivity extends AppCompatActivity {
 
         //Pas d'amis
 
-        mFriendsRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+        if (mFriendsRef != null){
 
-                if (!dataSnapshot.hasChild(mCurrentUserId)){
+            mFriendsRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
 
-                    CharSequence options[] = new CharSequence[] {"Yes, I want it...", "No, that's sucks"};
+                    if (!dataSnapshot.hasChild(mCurrentUserId)){
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        CharSequence options[] = new CharSequence[] {"Yes, I want it...", "No, that's sucks"};
 
-                    builder.setTitle("Do you want to invite some friends ?");
-                    builder.setItems(options, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 
-                            if (i==0){
+                        builder.setTitle("Do you want to invite some friends ?");
+                        builder.setItems(options, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
 
-                                Intent usersIntent = new Intent (MainActivity.this, UsersActivity.class);
-                                startActivity(usersIntent);
+                                if (i==0){
 
-                            } else if(i==1) {
+                                    Intent usersIntent = new Intent (MainActivity.this, UsersActivity.class);
+                                    startActivity(usersIntent);
 
-                                Toast.makeText(MainActivity.this, "Friendship is so important...", Toast.LENGTH_LONG).show();
+                                } else if(i==1) {
+
+                                    Toast.makeText(MainActivity.this, "Friendship is so important...", Toast.LENGTH_LONG).show();
+                                }
+
                             }
+                        });
 
-                        }
-                    });
+                        builder.show();
 
-                    builder.show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
                 }
-            }
+            });
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
+        } else {
+
+            Toast.makeText(this, "Have you Friends ?", Toast.LENGTH_SHORT).show();
+        }
+
+
 
 
 
