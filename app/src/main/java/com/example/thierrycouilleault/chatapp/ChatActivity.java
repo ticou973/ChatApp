@@ -155,7 +155,7 @@ public class ChatActivity extends AppCompatActivity {
 
                 if (online.equals("true")) {
 
-                    mLastSeenView.setText("Online");
+                    mLastSeenView.setText(R.string.online);
 
                 } else {
 
@@ -203,7 +203,7 @@ public class ChatActivity extends AppCompatActivity {
                 galleryIntent.setType("image/*");
                 galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
 
-                startActivityForResult(Intent.createChooser(galleryIntent,"SELECT IMAGE"), GALLERY_PICK);
+                startActivityForResult(Intent.createChooser(galleryIntent,getString(R.string.select_image)), GALLERY_PICK);
 
             }
         });
@@ -282,7 +282,7 @@ public class ChatActivity extends AppCompatActivity {
 
         if (mCurrent_user == null) {
 
-            Toast.makeText(this, "This person doesn't exist !", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.person_doesnt_exist, Toast.LENGTH_SHORT).show();
 
         } else {
 
@@ -297,7 +297,7 @@ public class ChatActivity extends AppCompatActivity {
         super.onStop();
         if (mCurrent_user == null) {
 
-            Toast.makeText(this, "This person doesn't exist !", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.person_doesnt_exist, Toast.LENGTH_SHORT).show();
 
         } else {
 
@@ -329,8 +329,8 @@ public class ChatActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
 
                 imageProgress = new ProgressDialog(ChatActivity.this);
-                imageProgress.setTitle("Uploading Image...");
-                imageProgress.setMessage("Please wait the upload !");
+                imageProgress.setTitle(getString(R.string.uploading_image));
+                imageProgress.setMessage(getString(R.string.please_wait_upload));
                 imageProgress.setCanceledOnTouchOutside(false);
                 imageProgress.show();
 
@@ -405,7 +405,7 @@ public class ChatActivity extends AppCompatActivity {
                                                 }else{
 
                                                     imageProgress.dismiss();
-                                                    Toast.makeText(ChatActivity.this, "Succcess Uploading", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(ChatActivity.this, R.string.sucess_uploading, Toast.LENGTH_SHORT).show();
 
                                                 }
 
@@ -413,7 +413,7 @@ public class ChatActivity extends AppCompatActivity {
                                         });
                                     }else{
                                         imageProgress.dismiss();
-                                        Toast.makeText(ChatActivity.this, "Error in uploading thumbnail...", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(ChatActivity.this, R.string.error_uploading_thumbnail, Toast.LENGTH_SHORT).show();
 
                                     }
                                 }
@@ -422,7 +422,7 @@ public class ChatActivity extends AppCompatActivity {
                         }else{
 
                             imageProgress.dismiss();
-                            Toast.makeText(ChatActivity.this, "Error in uploading...", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ChatActivity.this, R.string.error_uploading, Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -450,7 +450,7 @@ public class ChatActivity extends AppCompatActivity {
             String chat_user_ref = "messages/" + mChatUser + "/" + mCurrent_user.getUid();
 
             DatabaseReference user_message_push = mRootRef.child("messages").child(mCurrent_user.getUid()).child(mChatUser).push();
-
+            user_message_push.keepSynced(true);
             String push_id = user_message_push.getKey();
 
             //Todo gérer le "seen"
@@ -482,13 +482,14 @@ public class ChatActivity extends AppCompatActivity {
 
         } else {
 
-            Toast.makeText(this, "Nothing to send !", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.nothing_to_send, Toast.LENGTH_SHORT).show();
         }
 
     }
 
     private void loadMoreMessages (){
         DatabaseReference messageRef = mRootRef.child("messages").child(mCurrent_user.getUid()).child(mChatUser);
+        messageRef.keepSynced(true);
 
         Query messageQuery = messageRef.orderByKey().endAt(mMlastKey).limitToLast(10);
 
@@ -556,6 +557,7 @@ public class ChatActivity extends AppCompatActivity {
     private void loadMessage (){
 
         DatabaseReference messageRef = mRootRef.child("messages").child(mCurrent_user.getUid()).child(mChatUser);
+        messageRef.keepSynced(true);
 
         Query messageQuery = messageRef.limitToLast(mCurrentPage*TOTAL_ITEMS_TO_LOAD);
 

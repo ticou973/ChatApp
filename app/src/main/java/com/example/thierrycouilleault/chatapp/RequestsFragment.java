@@ -100,7 +100,7 @@ public class RequestsFragment extends android.support.v4.app.Fragment {
 
                 //gestion de la BD de req pour connaitre la date de req
 
-                viewHolder.setDate("Request sent : " + model.getRequest_date());
+                viewHolder.setDate(getString(R.string.request_sent) + model.getRequest_date());
 
 
 

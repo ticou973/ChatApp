@@ -92,7 +92,7 @@ public class FriendsFragment extends android.support.v4.app.Fragment {
             @Override
             protected void populateViewHolder(final FriendsViewHolder viewHolder, final Friends model, final int position) {
 
-                viewHolder.setDisplayDate("Friends since :" + model.getDate());
+                viewHolder.setDisplayDate(getString(R.string.friends_since) + "  " + model.getDate());
 
                 final String list_user_id = getRef(position).getKey();
 
@@ -122,11 +122,11 @@ public class FriendsFragment extends android.support.v4.app.Fragment {
 
                                 //gestion de l'alertDialog
 
-                                CharSequence options[] = new CharSequence[] {"Open Profile", "Send Message"};
+                                CharSequence options[] = new CharSequence[] {getString(R.string.open_profile), getString(R.string.send_message)};
 
                                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
-                                builder.setTitle("Select Options");
+                                builder.setTitle(R.string.select_options);
                                 builder.setItems(options, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {

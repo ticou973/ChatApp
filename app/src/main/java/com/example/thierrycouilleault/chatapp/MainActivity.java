@@ -61,18 +61,18 @@ public class MainActivity extends AppCompatActivity {
         //gestion de la toolbar
         mToolbar = findViewById(R.id.main_page_toolbar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("ChatApp");
+        getSupportActionBar().setTitle(R.string.chat_app);
 
 
 
         //gestion de tabs
         mViewPager = findViewById(R.id.tab_pager);
 
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), MainActivity.this);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         mTabLayout = findViewById(R.id.main_tabs);
-        mTabLayout.setupWithViewPager(mViewPager);
+        mTabLayout.setupWithViewPager(mViewPager,true);
 
         //Pas d'amis
 
@@ -84,11 +84,11 @@ public class MainActivity extends AppCompatActivity {
 
                     if (!dataSnapshot.hasChild(mCurrentUserId)){
 
-                        CharSequence options[] = new CharSequence[] {"Yes, I want it...", "No, that's sucks"};
+                        CharSequence options[] = new CharSequence[] {getString(R.string.yes_i_want_it), getString(R.string.no_thats_sucks)};
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 
-                        builder.setTitle("Do you want to invite some friends ?");
+                        builder.setTitle(R.string.invite_friends_questions);
                         builder.setItems(options, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 } else if(i==1) {
 
-                                    Toast.makeText(MainActivity.this, "Friendship is so important...", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(MainActivity.this, R.string.friendship_important, Toast.LENGTH_LONG).show();
                                 }
 
                             }
@@ -120,13 +120,8 @@ public class MainActivity extends AppCompatActivity {
 
         } else {
 
-            Toast.makeText(this, "Have you Friends ?", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.have_you_friends, Toast.LENGTH_SHORT).show();
         }
-
-
-
-
-
 
     }
 

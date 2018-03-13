@@ -40,7 +40,7 @@ public class UsersActivity extends AppCompatActivity {
 
         mToolbar = findViewById(R.id.users_appbar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("Users");
+        getSupportActionBar().setTitle(R.string.users);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mCurrent_user = FirebaseAuth.getInstance().getCurrentUser();
@@ -79,7 +79,7 @@ public class UsersActivity extends AppCompatActivity {
 
                 if (mCurrent_user==null){
 
-                    Toast.makeText(getApplicationContext(), "This person doesn't exist !", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.person_doesnt_exist, Toast.LENGTH_SHORT).show();
 
                 } else {
 

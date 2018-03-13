@@ -18,7 +18,7 @@
     <string name="friends">FRIENDS</string>
     <string name="requests">Requests</string>
     <string name="current_user_status">Current User Status</string>
-    <string name="total_friends">Total Friends</string>
+    <string name="total_friends">Total Friends :</string>
     <string name="send_friend_request">Send friend Request</string>
     <string name="decline_friend_request">Decline Friend request</string>
     <string name="create_account">CREATE ACCOUNT</string>
@@ -34,6 +34,44 @@
     <string name="default_status">Default Status</string>
     <string name="name">Name</string>
     <string name="default_message">Default Message</string>
+    <string name="online">Online</string>
+    <string name="select_image">SELECT IMAGE</string>
+    <string name="person_doesnt_exist">This person doesn\'t exist !</string>
+    <string name="uploading_image">Uploading Image...</string>
+    <string name="please_wait_upload">Please wait the upload !</string>
+    <string name="sucess_uploading">Succcess Uploading</string>
+    <string name="error_uploading_thumbnail">Error in uploading thumbnail...</string>
+    <string name="error_uploading">Error in uploading...</string>
+    <string name="nothing_to_send">Nothing to send !</string>
+    <string name="last_message">Last message :</string>
+    <string name="last_messge_image_received">Last message : Image received</string>
+    <string name="friends_since">Friends since :</string>
+    <string name="open_profile">Open Profile</string>
+    <string name="send_message">Send Message</string>
+    <string name="select_options">Select Options</string>
+    <string name="login">Login</string>
+    <string name="logging_in">Logging in</string>
+    <string name="check_credentials">Please wait while we check your credentials !</string>
+    <string name="auth_failed">Authentication failed.</string>
+    <string name="chat_app">ChatApp</string>
+    <string name="yes_i_want_it">Yes, I want it !...</string>
+    <string name="no_thats_sucks">No, that\'s sucks</string>
+    <string name="invite_friends_questions">Do you want to invite some friends ?</string>
+    <string name="friendship_important">Friendship is so important...</string>
+    <string name="have_you_friends">Have you Friends ?</string>
+    <string name="error_sending_error">There was some error in sending request</string>
+    <string name="cancel_friend_request">Cancel Friend Request</string>
+    <string name="unfriend_person">Unfriend this person</string>
+    <string name="loading_user_date">Loading User Data..</string>
+    <string name="please_waiting_user_data">please wait while loading the user data</string>
+    <string name="accpet_friend_request">Accept Friend Request</string>
+    <string name="request_sent">Request sent :</string>
+    <string name="sel_image">SELECT_IMAGE</string>
+    <string name="please_wait_saving_status">Please wait while we save your status !</string>
+    <string name="error_saving_changes">There was some errors in saving changes</string>
+    <string name="account_status">Account Status</string>
+    <string name="users">Users</string>
+    <string name="initial_status">Hi, I\'m using Chat App</string>
 
 
 </resources>

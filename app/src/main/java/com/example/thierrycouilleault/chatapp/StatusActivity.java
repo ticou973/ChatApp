@@ -55,8 +55,8 @@ public class StatusActivity extends AppCompatActivity {
                 //Progress
 
                 mProgress = new ProgressDialog(StatusActivity.this);
-                mProgress.setTitle("Saving Status");
-                mProgress.setMessage("Please wait while we save your status !");
+                mProgress.setTitle(R.string.save_status);
+                mProgress.setMessage(getString(R.string.please_wait_saving_status));
                 mProgress.setCanceledOnTouchOutside(false);
                 mProgress.show();
 
@@ -79,7 +79,7 @@ public class StatusActivity extends AppCompatActivity {
                         }else{
 
                             mProgress.hide();
-                            Toast.makeText(StatusActivity.this, "There was some errors in saving changes", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(StatusActivity.this, R.string.error_saving_changes, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -99,7 +99,7 @@ public class StatusActivity extends AppCompatActivity {
         //gestion de la toolbar
         mToolbar = findViewById(R.id.status_appbar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("Account Status");
+        getSupportActionBar().setTitle(R.string.account_status);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 

@@ -46,6 +46,7 @@ public class ChatFragment extends android.support.v4.app.Fragment {
     private View mMainView;
 
 
+
     public ChatFragment() {
         // Required empty public constructor
     }
@@ -98,7 +99,7 @@ public class ChatFragment extends android.support.v4.app.Fragment {
             @Override
             protected void populateViewHolder(final ConvViewHolder convViewHolder, final Conv conv, int i) {
 
-
+                final Context ctx = getContext();
                 final String list_user_id = getRef(i).getKey();
 
                 Query lastMessageQuery = mMessageDatabase.child(list_user_id).limitToLast(1);
@@ -110,7 +111,7 @@ public class ChatFragment extends android.support.v4.app.Fragment {
                         String data = dataSnapshot.child("message").getValue().toString();
                         String type = dataSnapshot.child("type").getValue().toString();
 
-                        convViewHolder.setMessage(data, type, conv.isSeen());
+                        convViewHolder.setMessage(data, type, conv.isSeen(), ctx);
 
                     }
 
@@ -193,9 +194,12 @@ public class ChatFragment extends android.support.v4.app.Fragment {
 
         }
 
-        public void setMessage(String message, String type, boolean isSeen){
+        public void setMessage(String message, String type, boolean isSeen, Context ctx){
 
             TextView userStatusView = mView.findViewById(R.id.chat_user_message);
+
+            String lastMessage = ctx.getString(R.string.last_message);
+            String lastMessageImage = ctx.getString(R.string.last_messge_image_received);
 
             if(!isSeen){
                 userStatusView.setTypeface(userStatusView.getTypeface(), Typeface.BOLD);
@@ -206,11 +210,11 @@ public class ChatFragment extends android.support.v4.app.Fragment {
 
             if (type.equals("text")) {
 
-                userStatusView.setText("Last message : " + message);
+                userStatusView.setText(lastMessage + " " + message);
 
             } else if(type.equals("image")) {
 
-                userStatusView.setText("Last message : Image received");
+                userStatusView.setText(lastMessageImage);
 
             }
 

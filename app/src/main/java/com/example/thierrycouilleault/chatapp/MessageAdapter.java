@@ -52,17 +52,15 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageViewHolder>{
 
         //pour ne pas que cela crash avec un nul object
         if (mAuth.getCurrentUser() != null){
+            final String current_user_id = mAuth.getCurrentUser().getUid();
 
-
-            String current_user_id = mAuth.getCurrentUser().getUid();
-
-            Messages c = mMessagesList.get(position);
-            String from_user = c.getFrom();
-            String message_type = c.getType();
+            final Messages c = mMessagesList.get(position);
+            final String from_user = c.getFrom();
+            final String message_type = c.getType();
 
 
             mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(from_user);
-
+            mUserDatabase.keepSynced(true);
             mUserDatabase.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -74,6 +72,35 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageViewHolder>{
 
                     Picasso.with(holder.profileImage.getContext()).load(image)
                             .placeholder(R.drawable.default_avatar).into(holder.profileImage);
+
+
+                    if(message_type.equals("text")){
+
+                        if(from_user.equals(current_user_id)){
+
+                            holder.messageText.setBackgroundColor(Color.WHITE);
+                            holder.messageText.setTextColor(Color.BLACK);
+
+                        }else{
+
+                            holder.messageText.setBackgroundResource(R.drawable.message_text_background);
+                            holder.messageText.setTextColor(Color.WHITE);
+
+                        }
+
+
+                        holder.messageText.setText(c.getMessage());
+                        holder.messageImage.setVisibility(View.INVISIBLE);
+
+
+                    }else if (message_type.equals("image")){
+
+                        holder.messageText.setVisibility(View.INVISIBLE);
+
+                        Picasso.with(holder.profileImage.getContext()).load(c.getMessage()).into(holder.messageImage);
+
+
+                    }
                 }
 
                 @Override
@@ -111,15 +138,16 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageViewHolder>{
 
 
             }
-
         }
-
     }
 
     @Override
     public int getItemCount() {
         return mMessagesList.size();
     }
+
+
+
 }
 
 class MessageViewHolder extends RecyclerView.ViewHolder {
@@ -139,4 +167,6 @@ class MessageViewHolder extends RecyclerView.ViewHolder {
 
 
     }
+
+
 }

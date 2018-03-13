@@ -103,9 +103,11 @@ public class RegisterActivity extends AppCompatActivity {
 
                             mDataBase = FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
 
+                            String initialStatus = getString(R.string.hi_i_m_using_chat_app);
+
                             HashMap<String, String> userMap = new HashMap<>();
                             userMap.put("name", display_name);
-                            userMap.put("status", "Hi, I'm using Chat App");
+                            userMap.put("status", initialStatus);
                             userMap.put("image", "default");
                             userMap.put("thumb_image", "default");
                             userMap.put("device_token", deviceToken);
@@ -140,7 +142,7 @@ public class RegisterActivity extends AppCompatActivity {
                             mRegProgress.hide();
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(RegisterActivity.this, "Authentication failed.",
+                            Toast.makeText(RegisterActivity.this, R.string.auth_failed,
                                     Toast.LENGTH_SHORT).show();
 
                         }

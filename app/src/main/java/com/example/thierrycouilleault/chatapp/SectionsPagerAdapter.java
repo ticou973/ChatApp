@@ -1,5 +1,6 @@
 package com.example.thierrycouilleault.chatapp;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -9,9 +10,19 @@ import android.support.v4.app.FragmentPagerAdapter;
  */
 
 class SectionsPagerAdapter extends FragmentPagerAdapter{
-    public SectionsPagerAdapter(FragmentManager fm) {
+
+    private Context ctxApp;
+
+
+    public SectionsPagerAdapter(FragmentManager fm, Context ctx) {
+
         super(fm);
+
+        ctxApp = ctx;
+
     }
+
+
 
     @Override
     public Fragment getItem(int position) {
@@ -41,18 +52,19 @@ class SectionsPagerAdapter extends FragmentPagerAdapter{
     }
 
     //méthode pour mettre les titres pour les tabs avec un view Pager
+    @Override
     public CharSequence getPageTitle (int position){
 
         switch (position){
 
             case 2 :
-                return "REQUESTS";
+                return ctxApp.getString(R.string.requests);
 
             case 0 :
-                return "CHATS";
+                return ctxApp.getString(R.string.chats);
 
             case 1 :
-                return "FRIENDS";
+                return ctxApp.getString(R.string.friends);
 
                 default:
                     return null;

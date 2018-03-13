@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
         //gestion Toolbar
         mToolbar = findViewById(R.id.login_toolbar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle("Login");
+        getSupportActionBar().setTitle(R.string.login);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mLoginProgress = new ProgressDialog(this);
@@ -76,8 +76,8 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (!TextUtils.isEmpty(email)||!TextUtils.isEmpty(password)){
 
-                    mLoginProgress.setTitle("Logging in");
-                    mLoginProgress.setMessage("Please wait while we check your credentials !");
+                    mLoginProgress.setTitle(getString(R.string.logging_in));
+                    mLoginProgress.setMessage(getString(R.string.check_credentials));
                     mLoginProgress.setCanceledOnTouchOutside(false);
                     mLoginProgress.show();
 
@@ -134,7 +134,7 @@ public class LoginActivity extends AppCompatActivity {
                             mLoginProgress.hide();
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                            Toast.makeText(LoginActivity.this, R.string.auth_failed,
                                     Toast.LENGTH_SHORT).show();
 
                         }

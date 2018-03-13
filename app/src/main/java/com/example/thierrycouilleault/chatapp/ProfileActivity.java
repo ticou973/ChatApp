@@ -99,7 +99,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                 int nbFriends = (int) (dataSnapshot.getChildrenCount());
 
-                profileDisplayTotalFriends.setText("Total Friends : " + Integer.toString(nbFriends));
+                profileDisplayTotalFriends.setText(getString(R.string.total_friends) + "  " + Integer.toString(nbFriends));
 
             }
 
@@ -145,12 +145,12 @@ public class ProfileActivity extends AppCompatActivity {
 
                         if (databaseError != null){
 
-                            Toast.makeText(ProfileActivity.this, "There was some error in sending request", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ProfileActivity.this, R.string.error_sending_error, Toast.LENGTH_SHORT).show();
                         }
                             profileSendRequestBtn.setEnabled(true);
 
                             mCurrent_state ="req_sent";
-                            profileSendRequestBtn.setText("Cancel Friend Request");
+                            profileSendRequestBtn.setText(R.string.cancel_friend_request);
                         }
                     });
 
@@ -170,7 +170,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                                     profileSendRequestBtn.setEnabled(true);
                                     mCurrent_state ="Not friends";
-                                    profileSendRequestBtn.setText("Send Friend Request");
+                                    profileSendRequestBtn.setText(R.string.send_friend_request);
 
                                     profileDeclineRequest.setVisibility(View.INVISIBLE);
                                     profileDeclineRequest.setEnabled(false);
@@ -202,7 +202,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                                 profileSendRequestBtn.setEnabled(true);
                                 mCurrent_state ="friends";
-                                profileSendRequestBtn.setText(" Unfriend this person");
+                                profileSendRequestBtn.setText(R.string.unfriend_person);
 
                                 profileDeclineRequest.setVisibility(View.INVISIBLE);
                                 profileDeclineRequest.setEnabled(false);
@@ -242,7 +242,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                                                     profileSendRequestBtn.setEnabled(true);
                                                     mCurrent_state ="Not friends";
-                                                    profileSendRequestBtn.setText("Send Friend Request");
+                                                    profileSendRequestBtn.setText(R.string.send_friend_request);
 
                                                     profileDeclineRequest.setVisibility(View.INVISIBLE);
                                                     profileDeclineRequest.setEnabled(false);
@@ -280,7 +280,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                                 profileSendRequestBtn.setEnabled(true);
                                 mCurrent_state ="Not friends";
-                                profileSendRequestBtn.setText("Send Friend Request");
+                                profileSendRequestBtn.setText(R.string.send_friend_request);
 
                                 profileDeclineRequest.setVisibility(View.INVISIBLE);
                                 profileDeclineRequest.setEnabled(false);
@@ -296,8 +296,8 @@ public class ProfileActivity extends AppCompatActivity {
         //gestion de la ProgressDialog le temps de chargement des datas
 
         mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setTitle("Loading User Data.. ");
-        mProgressDialog.setMessage("please wait while loading the user data ");
+        mProgressDialog.setTitle(getString(R.string.loading_user_date));
+        mProgressDialog.setMessage(getString(R.string.please_waiting_user_data));
         mProgressDialog.setCanceledOnTouchOutside(false);
         mProgressDialog.show();
 
@@ -328,14 +328,14 @@ public class ProfileActivity extends AppCompatActivity {
                             if (req_type.equals("received")){
 
                                 mCurrent_state ="req_received";
-                                profileSendRequestBtn.setText("Accept Friend Request");
+                                profileSendRequestBtn.setText(R.string.accpet_friend_request);
 
                                 profileDeclineRequest.setVisibility(View.VISIBLE);
                                 profileDeclineRequest.setEnabled(true);
 
                             }else if (req_type.equals("sent")){
                                 mCurrent_state = "req_sent";
-                                profileSendRequestBtn.setText("Cancel Friend Request");
+                                profileSendRequestBtn.setText(R.string.cancel_friend_request);
 
                                 profileDeclineRequest.setVisibility(View.INVISIBLE);
                                 profileDeclineRequest.setEnabled(false);
@@ -350,7 +350,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                     if (dataSnapshot.hasChild(user_id)){
                                         mCurrent_state ="friends";
-                                        profileSendRequestBtn.setText(" Unfriend this person");
+                                        profileSendRequestBtn.setText(R.string.unfriend_person);
 
                                         profileDeclineRequest.setVisibility(View.INVISIBLE);
                                         profileDeclineRequest.setEnabled(false);
@@ -398,7 +398,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         if (mCurrent_user==null){
 
-            Toast.makeText(this, "This person doesn't exist !", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.person_doesnt_exist, Toast.LENGTH_SHORT).show();
 
         } else {
 
@@ -413,7 +413,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onStop();
         if (mCurrent_user==null){
 
-            Toast.makeText(this, "This person doesn't exist !", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,  R.string.person_doesnt_exist, Toast.LENGTH_SHORT).show();
 
         } else {
 
