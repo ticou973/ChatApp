@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -62,6 +63,16 @@ public class UsersActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        if (mCurrent_user==null){
+
+            Toast.makeText(getApplicationContext(), R.string.person_doesnt_exist, Toast.LENGTH_SHORT).show();
+
+        } else {
+
+            mUserRef.child("online").setValue(true);
+
+        }
+
 
         FirebaseRecyclerAdapter<Users, UsersViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Users, UsersViewHolder>(
                 Users.class,
@@ -76,16 +87,6 @@ public class UsersActivity extends AppCompatActivity {
                viewHolder.setDisplayName(model.getName());
                viewHolder.setDisplayStatus(model.getStatus());
                viewHolder.setDisplayImage(model.getThumb_image(),getApplicationContext());
-
-                if (mCurrent_user==null){
-
-                    Toast.makeText(getApplicationContext(), R.string.person_doesnt_exist, Toast.LENGTH_SHORT).show();
-
-                } else {
-
-                    mUserRef.child("online").setValue(true);
-
-                }
 
                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                    @Override
@@ -103,6 +104,21 @@ public class UsersActivity extends AppCompatActivity {
 
 
         mUsersList.setAdapter(firebaseRecyclerAdapter);
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mCurrent_user==null){
+
+            Toast.makeText(this, R.string.person_doesnt_exist, Toast.LENGTH_SHORT).show();
+
+        } else {
+
+            usersDatabase.child(mCurrentUserUid).child("online").setValue(ServerValue.TIMESTAMP);
+
+        }
 
     }
 

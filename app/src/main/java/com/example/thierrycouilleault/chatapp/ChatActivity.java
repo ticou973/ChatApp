@@ -53,7 +53,6 @@ import id.zelory.compressor.Compressor;
 
 //todo ajouter prendre photos, ajouter vidéos, prendre vidéos, ajouter sons, prendre sons, géolocalisation
 
-
 //todo gérer les synchronisations et les effacements locaux
 
 
@@ -97,6 +96,8 @@ public class ChatActivity extends AppCompatActivity {
     private StorageReference mImageStorage;
     private Bitmap thumb_bitmap;
     private Byte [] thumb_byte;
+
+    private String type_Pause = "Normal";
 
 
     @Override
@@ -199,6 +200,8 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                type_Pause = "Image";
+
                 Intent galleryIntent = new Intent();
                 galleryIntent.setType("image/*");
                 galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
@@ -293,13 +296,17 @@ public class ChatActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
         if (mCurrent_user == null) {
 
             Toast.makeText(this, R.string.person_doesnt_exist, Toast.LENGTH_SHORT).show();
 
-        } else {
+        } else if (type_Pause.equals("Image")){
+
+            mUserRef.child("online").setValue(true);
+
+        }else {
 
             mUserRef.child("online").setValue(ServerValue.TIMESTAMP);
 

@@ -46,6 +46,7 @@ public class ProfileActivity extends AppCompatActivity {
     private String mCurrentUserUid;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -407,19 +408,21 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
+
+
         if (mCurrent_user==null){
 
-            Toast.makeText(this,  R.string.person_doesnt_exist, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.person_doesnt_exist, Toast.LENGTH_SHORT).show();
 
-        } else {
+        }else{
 
             mUserRef.child("online").setValue(ServerValue.TIMESTAMP);
 
         }
+
 
     }
 }
