@@ -20,6 +20,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -62,6 +63,8 @@ public class SettingsActivity extends AppCompatActivity {
 
     private Byte [] thumb_byte;
 
+    private String type_Pause = "Normal";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,21 +79,23 @@ public class SettingsActivity extends AppCompatActivity {
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
 
-        //gestion des boutons
+        //gestion du  bouton de chgt d'image
         mChangeImageBtn = findViewById(R.id.image_settings_btn);
         mChangeImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                type_Pause = "Image";
+
                 Intent galleryIntent = new Intent ();
                 galleryIntent.setType("image/*");
                 galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-
                 startActivityForResult(Intent.createChooser(galleryIntent, getString(R.string.select_image)),GALLERY_PICK);
 
             }
         });
 
+        //gestion du bouton de changement de statut
 
         mChangeStatusBtn = findViewById(R.id.status_settings_btn);
         mChangeStatusBtn.setOnClickListener(new View.OnClickListener() {
@@ -158,6 +163,8 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+
 
         if (requestCode == GALLERY_PICK && resultCode==RESULT_OK) {
 
@@ -276,7 +283,6 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-
         if (mCurrentUser==null){
 
             Toast.makeText(this, R.string.person_doesnt_exist, Toast.LENGTH_SHORT).show();
@@ -289,22 +295,28 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
-    protected void onStop() {
-        super.onStop();
-
+    protected void onPause() {
+        super.onPause();
         if (mCurrentUser==null){
 
             Toast.makeText(this, R.string.person_doesnt_exist, Toast.LENGTH_SHORT).show();
 
+        } else if (type_Pause.equals("Image")){
+
+            mUserDatabase.child("online").setValue(true);
+
         } else {
 
-            mUserDatabase.child("online").setValue(false);
-
+            mUserDatabase.child("online").setValue(ServerValue.TIMESTAMP);
         }
 
+
     }
+
+
+
+
 
     //Code inutile mais permet de générer une String aléatoire
     public static String random() {

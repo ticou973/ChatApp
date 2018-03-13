@@ -71,4 +71,12 @@
     <string name="account_status">Statut du compte</string>
     <string name="users">Utilisateurs</string>
     <string name="initial_status">Bonjour j\'utilise ChatApp !</string>
+    <string name="minute_ago">une minute</string>
+    <string name="just_now">A l\'instant</string>
+    <string name="minutes_ago">"minutes "</string>
+    <string name="hours_ago">heures</string>
+    <string name="days_ago">jours</string>
+    <string name="seen">Vu, il y a</string>
+    <string name="hour_ago">une heure</string>
+    <string name="yesterday">Vu hier</string>
 </resources>

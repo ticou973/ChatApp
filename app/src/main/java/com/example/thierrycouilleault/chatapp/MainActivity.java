@@ -147,8 +147,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
 
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -159,7 +159,10 @@ public class MainActivity extends AppCompatActivity {
             mUserRef.child("online").setValue(ServerValue.TIMESTAMP);
 
         }
+
     }
+
+
 
     private void sendToStart() {
         Intent startIntent = new Intent(MainActivity.this, StartActivity.class);
@@ -196,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
 
             Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(settingsIntent);
+
         } else if (item.getItemId()==R.id.main_all_users_btn) {
 
             Intent usersIntent = new Intent (MainActivity.this, UsersActivity.class);

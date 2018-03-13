@@ -26,7 +26,7 @@ plus loin gestion du Online
 */
 
 //Todo gérer le online
-    //todo gérer les langues
+
 
 public class ChatApp extends Application {
 
@@ -68,8 +68,6 @@ public class ChatApp extends Application {
 
                         //Pour mettre un tampon pour la dernière fois vue
                         mUsersDatabase.child("online").onDisconnect().setValue(ServerValue.TIMESTAMP);
-
-
 
                     }
 

@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 
 public class StatusActivity extends AppCompatActivity {
 
@@ -102,6 +103,37 @@ public class StatusActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(R.string.account_status);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (mCurrentUser==null){
+
+            Toast.makeText(this, R.string.person_doesnt_exist, Toast.LENGTH_SHORT).show();
+
+        } else {
+
+
+            mStatusDatabase.child("online").setValue(true);
+
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mCurrentUser==null){
+
+            Toast.makeText(this, R.string.person_doesnt_exist, Toast.LENGTH_SHORT).show();
+
+        } else {
+
+            mStatusDatabase.child("online").setValue(ServerValue.TIMESTAMP);
+
+        }
 
     }
 }
